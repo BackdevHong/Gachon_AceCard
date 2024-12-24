@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: e14767cea29acc84ab92674b3351a610
+  - enabled: 1
+    path: Assets/Scenes/CardDeckScene.unity
+    guid: fb8c76b772087fe47982411adf9db798
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

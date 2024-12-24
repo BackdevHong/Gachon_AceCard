@@ -25,7 +25,7 @@ namespace Mirror
         [Tooltip("Send timeout in milliseconds.")]
         public int SendTimeout = 5000;
 
-        [Tooltip("Receive timeout in milliseconds. High by default so users don't time out during scene changes.")]
+        [Tooltip("Receive timeout in milliseconds. High by default so users don't time   out during scene changes.")]
         public int ReceiveTimeout = 30000;
 
         [Header("Server")]
