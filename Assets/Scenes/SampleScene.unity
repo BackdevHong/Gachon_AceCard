@@ -1196,7 +1196,7 @@ MonoBehaviour:
   editorAutoStart: 0
   sendRate: 60
   offlineScene: Assets/Scenes/SampleScene.unity
-  onlineScene: 
+  onlineScene: Assets/Scenes/TestScene.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 1264478543}
   networkAddress: localhost
@@ -1204,8 +1204,8 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  autoCreatePlayer: 0
+  playerPrefab: {fileID: 9121280431488724029, guid: 03dafe6495c46c048880abe3e4aba554, type: 3}
+  autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
   exceptionsDisconnect: 1
