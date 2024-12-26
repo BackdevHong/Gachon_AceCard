@@ -37,4 +37,28 @@ public class CharactorCard : MonoBehaviour
         hpText.text = GetHp().ToString();
         attackText.text = GetAttack().ToString();
     }
+    
+    private void UpdateUI()
+    {
+        hpText.text = $"{hp}";
+        attackText.text = $"{attack}";
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        hp -= damage;
+
+        UpdateUI();
+        if (hp <= 0)
+        {
+            Debug.Log($"{name} 캐릭터가 쓰러졌습니다.");
+        }
+    }
+
+    // 공격했을 때
+    public void Attack(CharactorCard target)
+    {
+        Debug.Log($"{name}이(가) {target.name}을(를) 공격합니다.");
+        target.TakeDamage(attack);
+    }
 }
