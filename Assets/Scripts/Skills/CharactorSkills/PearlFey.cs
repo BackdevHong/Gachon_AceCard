@@ -1,14 +1,14 @@
-﻿public class MiaFey : Skill
+﻿public class PearlFey : Skill
 {
     public CharactorCard myCharactor;
     public CharactorCard targetCharactor;
     
     public override void OnSkill()
     {
-        // myCharactor.hp += 1;
-        // targetCharactor.hp -= 2;
-        // 네트워크 관련 로직 구성 이후, 다시 구성
+        myCharactor.hp += 1;
+        targetCharactor.hp -= 1;
         throw new System.NotImplementedException();
+        UpdateText();
     }
     
     public override void UpdateText()

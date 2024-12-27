@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 104499248617677604}
   - component: {fileID: 6452215042801147179}
   - component: {fileID: -612850091615959410}
-  - component: {fileID: 3527788221815986511}
-  - component: {fileID: 7045807042151558907}
+  - component: {fileID: 8218341660537539671}
+  - component: {fileID: 8120818369949320317}
   m_Layer: 0
-  m_Name: Pheonix Wright
+  m_Name: Marvin Grossberg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,13 +104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdaf73d5c48c2b4a93a4d559a86b129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  attack: 2
-  skillCost: 4
-  skillCard: {fileID: 3527788221815986511}
-  hpText: {fileID: 3724547782397596276}
-  attackText: {fileID: 7644851987050725360}
---- !u!114 &3527788221815986511
+  hp: 25
+  attack: 1
+  skillCost: 3
+  skillCard: {fileID: 8218341660537539671}
+  hpText: {fileID: 5921539477727292918}
+  attackText: {fileID: 8743933465149782125}
+--- !u!114 &8218341660537539671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,12 +119,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1293424760666407573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a41a52ff69401a968fa555c5cc4b8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 18156a0b619ccbe469b482cd091e8bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCharactor: {fileID: -612850091615959410}
+  myCharactor: {fileID: 0}
   targetCharactor: {fileID: 0}
---- !u!61 &7045807042151558907
+--- !u!61 &8120818369949320317
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,7 +170,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &2039631245485439030
+--- !u!1 &1537430136209313444
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,9 +178,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5816032665866520085}
-  - component: {fileID: 8531793494463013320}
-  - component: {fileID: 3724547782397596276}
+  - component: {fileID: 7209745817046867661}
+  - component: {fileID: 934608990321116025}
+  - component: {fileID: 5921539477727292918}
   m_Layer: 0
   m_Name: HP_TEXT
   m_TagString: Untagged
@@ -188,13 +188,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5816032665866520085
+--- !u!224 &7209745817046867661
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2039631245485439030}
+  m_GameObject: {fileID: 1537430136209313444}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.7000026}
   m_LocalScale: {x: 0.9997474, y: 0.69995093, z: 0.99967927}
@@ -207,21 +207,21 @@ RectTransform:
   m_AnchoredPosition: {x: -44.199677, y: 42.770054}
   m_SizeDelta: {x: 41.45, y: 16.796}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8531793494463013320
+--- !u!222 &934608990321116025
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2039631245485439030}
+  m_GameObject: {fileID: 1537430136209313444}
   m_CullTransparentMesh: 1
---- !u!114 &3724547782397596276
+--- !u!114 &5921539477727292918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2039631245485439030}
+  m_GameObject: {fileID: 1537430136209313444}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -393,7 +393,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &3479463381801518306
+--- !u!1 &5367164528923364430
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -401,9 +401,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8088578434769522677}
-  - component: {fileID: 5380417424608542151}
-  - component: {fileID: 7644851987050725360}
+  - component: {fileID: 7194629047581211119}
+  - component: {fileID: 7663727722199730555}
+  - component: {fileID: 8743933465149782125}
   m_Layer: 0
   m_Name: ATTACK_TEXT
   m_TagString: Untagged
@@ -411,13 +411,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &8088578434769522677
+--- !u!224 &7194629047581211119
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3479463381801518306}
+  m_GameObject: {fileID: 5367164528923364430}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.9997474, y: 0.69995093, z: 0.99967927}
@@ -430,21 +430,21 @@ RectTransform:
   m_AnchoredPosition: {x: 38.99999, y: -43.399937}
   m_SizeDelta: {x: 16.13, y: 16.69}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5380417424608542151
+--- !u!222 &7663727722199730555
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3479463381801518306}
+  m_GameObject: {fileID: 5367164528923364430}
   m_CullTransparentMesh: 1
---- !u!114 &7644851987050725360
+--- !u!114 &8743933465149782125
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3479463381801518306}
+  m_GameObject: {fileID: 5367164528923364430}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -560,8 +560,8 @@ RectTransform:
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5816032665866520085}
-  - {fileID: 8088578434769522677}
+  - {fileID: 7209745817046867661}
+  - {fileID: 7194629047581211119}
   m_Father: {fileID: 104499248617677604}
   m_LocalEulerAnglesHint: {x: 0, y: 0.5, z: 0}
   m_AnchorMin: {x: 0, y: 0}
