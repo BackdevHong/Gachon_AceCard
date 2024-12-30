@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18156a0b619ccbe469b482cd091e8bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCharactor: {fileID: 0}
+  onSelectionNeed: 0
+  myCharactor: {fileID: -612850091615959410}
   targetCharactor: {fileID: 0}
 --- !u!61 &2011077000850077480
 BoxCollider2D:
