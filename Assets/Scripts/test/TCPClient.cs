@@ -63,7 +63,7 @@ public class TCPClientManager : MonoBehaviour
                 if (bytesRead > 0)
                 {
                     string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    Debug.Log($"서버로부터 메시지 수신: {message}");
+                    // Debug.Log($"서버로부터 메시지 수신: {message}");
                     ProcessReceivedMessage(message);
                 }
             }
