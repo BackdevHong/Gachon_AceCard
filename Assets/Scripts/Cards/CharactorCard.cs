@@ -8,10 +8,18 @@ public class CharactorCard : MonoBehaviour
     public int attack = 0; // 공격력
     public int skillCost = 0;
     public Skill skillCard;
+    public string uniqueID; // 고유 ID
 
     public TMP_Text hpText; // 체력 표시 TextMeshPro
     public TMP_Text attackText; // 공격력 표시 TextMeshPro
-
+    private void Awake()
+    {
+        // 고유 ID 생성 (동일한 값으로 재사용 가능)
+        if (string.IsNullOrEmpty(uniqueID))
+        {
+            uniqueID = System.Guid.NewGuid().ToString();
+        }
+    }
     private void Start()
     {
         UpdateUI();

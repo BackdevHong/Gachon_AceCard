@@ -96,9 +96,44 @@ public class TCPClientManager : MonoBehaviour
 
     private void ProcessReceivedMessage(string message)
     {
-        GameEvent gameEvent = JsonUtility.FromJson<GameEvent>(message);
-        GameManager.Instance.HandleGameEvent(gameEvent);
+        try
+        {
+            GameEvent gameEvent = JsonUtility.FromJson<GameEvent>(message);
+            Debug.Log($"수신된 이벤트: {gameEvent.eventType}");
+
+            // instanceID를 사용하여 객체를 찾는 로직 추가
+            CharactorCard attacker = FindCharacterByInstanceID(gameEvent.attacker.instanceID);
+            CharactorCard target = FindCharacterByInstanceID(gameEvent.target.instanceID);
+
+            // 이벤트 처리
+            if (gameEvent.eventType == "Skill")
+            {
+                Debug.Log($"{attacker.name}이(가) {target.name}에게 스킬로 {gameEvent.damage}의 피해를 입혔습니다.");
+                target.TakeDamage(gameEvent.damage);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"JSON 파싱 오류: {ex.Message}");
+        }
     }
+    
+    private CharactorCard FindCharacterByInstanceID(int instanceID)
+    {
+        CharactorCard[] allCharacters = FindObjectsByType<CharactorCard>(FindObjectsSortMode.InstanceID);
+
+        foreach (var character in allCharacters)
+        {
+            if (character.GetInstanceID() == instanceID)
+            {
+                return character;
+            }
+        }
+
+        Debug.LogError($"InstanceID {instanceID}에 해당하는 캐릭터를 찾을 수 없습니다.");
+        return null;
+    }
+
 
     public void Disconnect()
     {
@@ -128,9 +163,15 @@ public class TCPClientManager : MonoBehaviour
 public class GameEvent
 {
     public string eventType; // "Attack", "Skill", "Switch"
-    public CharactorCard attacker;
-    public CharactorCard target;
+    public CharactorReference attacker; // 공격자 정보
+    public CharactorReference target;   // 대상 정보
     public int damage; // 공격 또는 스킬 데미지
     public string switchFrom;
     public string switchTo;
+}
+
+[Serializable]
+public class CharactorReference
+{
+    public int instanceID; // 캐릭터의 고유 ID
 }
