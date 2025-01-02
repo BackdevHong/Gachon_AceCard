@@ -4,7 +4,7 @@ public class DickGumshoe : Skill
 {
     public CharactorCard myCharactor; // 스킬 사용자
 
-    protected override void OnSkill()
+    public override void OnSkill()
     {
         if (SelectedTarget == null)
         {

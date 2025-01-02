@@ -96,60 +96,69 @@ public class GameManager : MonoBehaviour
 
     public void NormalAttack()
     {
-        // 현재 턴에 따라 상대방의 Participation 결정
+        GameObject myParticipation = isPlayer1Turn ? player1Participation : player2Participation;
         GameObject opponentParticipation = isPlayer1Turn ? player2Participation : player1Participation;
-
-        // 상대방의 Participation에서 첫 번째 카드 가져오기
         var opponentCards = opponentParticipation.GetComponentsInChildren<CharactorCard>();
-        if (opponentCards.Length == 0)
+        var myCards = myParticipation.GetComponentsInChildren<CharactorCard>();
+        
+        if (myCards.Length == 0) return;
+        if (opponentCards.Length > 0)
+        {
+            var targetCard = opponentCards[0];
+            var myCard = myCards[0];
+            int damage = 1;
+
+            GameEvent attackEvent = new GameEvent
+            {
+                eventType = "Attack",
+                attacker = myCard,
+                target = targetCard,
+                damage = damage
+            };
+
+            TCPClientManager.Instance.SendMessageToServer(JsonUtility.ToJson(attackEvent));
+        }
+        else
         {
             Debug.Log("상대방의 Participation에 카드가 없습니다.");
-            return;
         }
-
-        var targetCard = opponentCards[0];
-        targetCard.TakeDamage(1); // 기본 데미지 1
-        Debug.Log($"{(isPlayer1Turn ? "Player1" : "Player2")}이(가) {targetCard.name}에게 일반 공격을 했습니다.");
     }
 
     public void SkillAttack()
     {
-        // 현재 턴에 따라 자신의 Participation과 상대방의 Participation 결정
         GameObject myParticipation = isPlayer1Turn ? player1Participation : player2Participation;
         GameObject opponentParticipation = isPlayer1Turn ? player2Participation : player1Participation;
 
-        // 자신의 Participation에서 첫 번째 카드 가져오기
         var myCards = myParticipation.GetComponentsInChildren<CharactorCard>();
-        if (myCards.Length == 0)
-        {
-            Debug.Log("내 Participation에 카드가 없습니다.");
-            return;
-        }
+        if (myCards.Length == 0) return;
 
-        var activeCard = myCards[0];
-        var activeSkill = activeCard.skillCard;
-        if (activeSkill == null)
-        {
-            Debug.Log("스킬이 없는 카드입니다.");
-            return;
-        }
-
-        // 상대방의 Participation에서 첫 번째 카드 가져오기
         var opponentCards = opponentParticipation.GetComponentsInChildren<CharactorCard>();
-        if (opponentCards.Length == 0)
+        if (opponentCards.Length == 0) return;
+
+        GameEvent skillEvent = new GameEvent
         {
-            Debug.Log("상대방의 Participation에 카드가 없습니다.");
-            return;
-        }
+            eventType = "Skill",
+            attacker = myCards[0],
+            target = opponentCards[0],
+        };
 
-        var targetCard = opponentCards[0];
-        activeSkill.SelectTarget(targetCard); // 스킬 사용
-        Debug.Log($"{(isPlayer1Turn ? "Player1" : "Player2")}이(가) {targetCard.name}에게 스킬 공격을 했습니다.");
+        TCPClientManager.Instance.SendMessageToServer(JsonUtility.ToJson(skillEvent));
     }
-
-    public void EndTurn()
+    
+    public void HandleGameEvent(GameEvent gameEvent)
     {
-        isPlayer1Turn = !isPlayer1Turn; // 턴 전환
-        Debug.Log(isPlayer1Turn ? "Player1의 턴입니다." : "Player2의 턴입니다.");
+        switch (gameEvent.eventType)
+        {
+            case "Attack":
+                Debug.Log($"{gameEvent.attacker}이(가) {gameEvent.target}에게 {gameEvent.damage}의 피해를 입혔습니다.");
+                break;
+            case "Skill":
+                Debug.Log($"{gameEvent.attacker}이(가) {gameEvent.target}에게 스킬 사용");
+                gameEvent.attacker.skillCard.OnSkill();
+                break;
+            case "Switch":
+                Debug.Log($"{gameEvent.switchFrom}이(가) {gameEvent.switchTo}와 교체되었습니다.");
+                break;
+        }
     }
 }

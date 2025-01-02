@@ -3,7 +3,7 @@
     public CharactorCard myCharactor; // 스킬 사용자
     public CharactorCard targetCharactor; // 스킬 대상
 
-    protected override void OnSkill()
+    public override void OnSkill()
     {
         targetCharactor.hp -= 2;
         targetCharactor.hp -= 2;

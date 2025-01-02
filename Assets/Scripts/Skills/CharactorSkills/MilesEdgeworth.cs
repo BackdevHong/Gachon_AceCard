@@ -6,7 +6,7 @@ public class MilesEdgeworth : Skill
     public CharactorCard targetCharactor; // 스킬 대상
     public bool isTriggered = false;
 
-    protected override void OnSkill()
+    public override void OnSkill()
     {
         targetCharactor.hp -= 2;
         if (myCharactor.hp > 3 && isTriggered) return;

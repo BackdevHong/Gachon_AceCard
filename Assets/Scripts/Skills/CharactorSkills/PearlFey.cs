@@ -3,7 +3,7 @@
     public CharactorCard myCharactor;
     public CharactorCard targetCharactor;
 
-    protected override void OnSkill()
+    public override void OnSkill()
     {
         myCharactor.hp += 1;
         targetCharactor.hp -= 1;

@@ -5,7 +5,7 @@ public class Skill : MonoBehaviour
     public bool onSelectionNeed = false; // 카드 선택 여부 플래그
     protected CharactorCard SelectedTarget = null; // 선택된 대상 카드
 
-    protected virtual void OnSkill()
+    public virtual void OnSkill()
     {
         // 스킬 실행 로직
     }

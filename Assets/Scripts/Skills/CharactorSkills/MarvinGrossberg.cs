@@ -3,7 +3,7 @@
     public CharactorCard myCharactor; // 스킬 사용자
     public CharactorCard targetCharactor; // 스킬 대상
 
-    protected override void OnSkill()
+    public override void OnSkill()
     {
         targetCharactor.hp -= 2;
         // 네트워크 관련 로직 구성 이후, 모든 플레이어 대상으로 한 스킬 구현
