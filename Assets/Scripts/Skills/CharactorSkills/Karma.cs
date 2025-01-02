@@ -6,8 +6,8 @@ public class Karma : Skill
     public CharactorCard myCharactor; // 스킬 사용자
     public CharactorCard targetCharactor; // 스킬 대상
     public String selectedType;
-    
-    public override void OnSkill()
+
+    protected override void OnSkill()
     {
         myCharactor.hp -= 2;
         if (selectedType == "card")

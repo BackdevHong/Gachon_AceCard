@@ -3,24 +3,23 @@
 public class DickGumshoe : Skill
 {
     public CharactorCard myCharactor; // 스킬 사용자
-    public CharactorCard targetCharactor; // 스킬 대상
-    
-    public override void OnSkill()
+
+    protected override void OnSkill()
     {
-        if (onSelectionNeed && !isTargetSelected)
+        if (SelectedTarget == null)
         {
-            Debug.Log("스킬 발동 조건이 충족되지 않았습니다.");
+            Debug.LogError("스킬 발동 조건이 충족되지 않았습니다.");
             return;
         }
 
-        myCharactor.hp -= 2;
-        targetCharactor.hp -= 5; // 예시: 대상에게 데미지를 줌
-        UpdateText();
+        myCharactor.hp -= 2; // 스킬 비용
+        SelectedTarget.TakeDamage(5); // 대상에게 데미지
+        Debug.Log($"{myCharactor.name}이(가) {SelectedTarget.name}에게 스킬을 사용했습니다.");
     }
 
     public override void UpdateText()
     {
         myCharactor.hpText.text = myCharactor.hp.ToString();
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        SelectedTarget.hpText.text = SelectedTarget.hp.ToString();
     }
 }

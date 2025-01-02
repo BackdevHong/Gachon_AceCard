@@ -5,7 +5,7 @@ public class WinstonPayne : Skill
     public CharactorCard myCharactor; // 스킬 사용자
     public CharactorCard targetCharactor; // 스킬 대상
 
-    public override void OnSkill()
+    protected override void OnSkill()
     {
         System.Random random = new System.Random();
         int chance = random.Next(0, 2); // 0 또는 1을 반환 (50% 확률)
