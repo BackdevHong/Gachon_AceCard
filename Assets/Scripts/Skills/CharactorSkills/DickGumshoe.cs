@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DickGumshoe : Skill
 {
-    public CharactorCard myCharactor; // 스킬 사용자
-
+    [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
+    public string type;
     public override void OnSkill()
     {
         if (SelectedTarget == null)
@@ -12,14 +13,14 @@ public class DickGumshoe : Skill
             return;
         }
 
-        myCharactor.hp -= 2; // 스킬 비용
+        myCharacter.hp -= 2; // 스킬 비용
         SelectedTarget.TakeDamage(5); // 대상에게 데미지
-        Debug.Log($"{myCharactor.name}이(가) {SelectedTarget.name}에게 스킬을 사용했습니다.");
+        Debug.Log($"{myCharacter.name}이(가) {SelectedTarget.name}에게 스킬을 사용했습니다.");
     }
 
     public override void UpdateText()
     {
-        myCharactor.hpText.text = myCharactor.hp.ToString();
+        myCharacter.hpText.text = myCharacter.hp.ToString();
         SelectedTarget.hpText.text = SelectedTarget.hp.ToString();
     }
 }

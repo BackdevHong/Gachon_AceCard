@@ -1,15 +1,16 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Karma : Skill
 {
-    public CharactorCard myCharactor; // 스킬 사용자
-    public CharactorCard targetCharactor; // 스킬 대상
+    [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
     public String selectedType;
 
     public override void OnSkill()
     {
-        myCharactor.hp -= 2;
+        myCharacter.hp -= 2;
         if (selectedType == "card")
         {
             // 카드 뽑는 로직
@@ -26,7 +27,7 @@ public class Karma : Skill
     
     public override void UpdateText()
     {
-        myCharactor.hpText.text = myCharactor.hp.ToString();
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        myCharacter.hpText.text = myCharacter.hp.ToString();
+        targetCharacter.hpText.text = targetCharacter.hp.ToString();
     } 
 }

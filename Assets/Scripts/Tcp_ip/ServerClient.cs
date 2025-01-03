@@ -53,6 +53,43 @@ public class ServerClient
 
     public void SendData(byte[] data)
     {
-        _stream.BeginWrite(data, 0, data.Length, null, null);
+        _stream.BeginWrite(data, 0, data.Length, OnWriteComplete, null);
+    }
+    
+    private void OnWriteComplete(IAsyncResult ar)
+    {
+        try
+        {
+            int packetLength = _stream.EndRead(ar);
+            if (packetLength <= 0)
+            {
+                Debug.Log($"Player {PlayerID} disconnected.");
+                return;
+            }
+
+            byte[] data = new byte[packetLength];
+            Array.Copy(_receiveBuffer, data, packetLength);
+
+            Packet packet = new Packet(data);
+            int commandID = packet.ReadInt(); // 패킷의 첫 번째 값: PacketType
+            if (commandID == (int)PacketType.Attack)
+            {
+                Server.Instance.HandleAttackEvent(data); // HandleAttackEvent 호출
+            }
+            if (commandID == (int)PacketType.Skill)
+            {
+                Server.Instance.HandleSkillEvent(data); // HandleSkillEvent 호출
+            }
+            if (commandID == (int)PacketType.Switch)
+            {
+                Server.Instance.HandleSwitchEvent(data); // HandleSwitchEvent 호출
+            }
+
+            StartRead(); // 다음 데이터 수신 시작
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Client {PlayerID} Receive Error: {e.Message}");
+        }
     }
 }

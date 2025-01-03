@@ -1,18 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Gavel : Skill
 {
-    public CharactorCard targetCharactor; // 스킬 대상
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
     public bool isTriggered = false;
 
     public override void OnSkill()
     {
-        targetCharactor.attack += 1;
+        targetCharacter.attack += 1;
         UpdateText();
     }
     
     public override void UpdateText()
     {
-        targetCharactor.attackText.text = targetCharactor.attack.ToString();
+        targetCharacter.attackText.text = targetCharacter.attack.ToString();
     }
 }

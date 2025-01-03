@@ -3,7 +3,7 @@ using UnityEngine;
 public class Skill : MonoBehaviour
 {
     public bool onSelectionNeed = false; // 카드 선택 여부 플래그
-    protected CharactorCard SelectedTarget = null; // 선택된 대상 카드
+    protected CharacterCard SelectedTarget = null; // 선택된 대상 카드
 
     public virtual void OnSkill()
     {
@@ -15,7 +15,7 @@ public class Skill : MonoBehaviour
         
     }
 
-    public void SelectTarget(CharactorCard target)
+    public void SelectTarget(CharacterCard target)
     {
         SelectedTarget = target;
         Debug.Log($"스킬 대상 설정: {target.name}");

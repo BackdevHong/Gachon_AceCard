@@ -1,7 +1,9 @@
-﻿public class MiaFey : Skill
+﻿using UnityEngine.Serialization;
+
+public class MiaFey : Skill
 {
-    public CharactorCard myCharactor;
-    public CharactorCard targetCharactor;
+    [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter;
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter;
 
     public override void OnSkill()
     {
@@ -13,7 +15,7 @@
     
     public override void UpdateText()
     {
-        myCharactor.hpText.text = myCharactor.hp.ToString();
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        myCharacter.hpText.text = myCharacter.hp.ToString();
+        targetCharacter.hpText.text = targetCharacter.hp.ToString();
     } 
 }

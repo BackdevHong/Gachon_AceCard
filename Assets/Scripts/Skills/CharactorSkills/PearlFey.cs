@@ -1,19 +1,21 @@
-﻿public class PearlFey : Skill
+﻿using UnityEngine.Serialization;
+
+public class PearlFey : Skill
 {
-    public CharactorCard myCharactor;
-    public CharactorCard targetCharactor;
+    [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter;
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter;
 
     public override void OnSkill()
     {
-        myCharactor.hp += 1;
-        targetCharactor.hp -= 1;
+        myCharacter.hp += 1;
+        targetCharacter.hp -= 1;
         throw new System.NotImplementedException();
         UpdateText();
     }
     
     public override void UpdateText()
     {
-        myCharactor.hpText.text = myCharactor.hp.ToString();
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        myCharacter.hpText.text = myCharacter.hp.ToString();
+        targetCharacter.hpText.text = targetCharacter.hp.ToString();
     } 
 }

@@ -1,18 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Consensus : Skill
 {
-    public CharactorCard targetCharactor; // 스킬 대상
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
     public bool isTriggered = false;
 
     public override void OnSkill()
     {
-        targetCharactor.hp += 1;
+        targetCharacter.hp += 1;
         UpdateText();
     }
     
     public override void UpdateText()
     {
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        targetCharacter.hpText.text = targetCharacter.hp.ToString();
     }
 }

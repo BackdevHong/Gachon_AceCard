@@ -1,17 +1,19 @@
-﻿public class Godot : Skill
+﻿using UnityEngine.Serialization;
+
+public class Godot : Skill
 {
-    public CharactorCard myCharactor; // 스킬 사용자
-    public CharactorCard targetCharactor; // 스킬 대상
+    [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
 
     public override void OnSkill()
     {
-        targetCharactor.hp -= 3;
+        targetCharacter.hp -= 3;
         UpdateText();
     }
     
     public override void UpdateText()
     {
-        myCharactor.hpText.text = myCharactor.hp.ToString();
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        myCharacter.hpText.text = myCharacter.hp.ToString();
+        targetCharacter.hpText.text = targetCharacter.hp.ToString();
     } 
 }

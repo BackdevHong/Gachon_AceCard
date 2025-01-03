@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MilesEdgeworth : Skill
 {
-    public CharactorCard myCharactor; // 스킬 사용자
-    public CharactorCard targetCharactor; // 스킬 대상
+    [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
+    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
     public bool isTriggered = false;
 
     public override void OnSkill()
     {
-        targetCharactor.hp -= 2;
-        if (myCharactor.hp > 3 && isTriggered) return;
-        myCharactor.attack += 2;
+        targetCharacter.hp -= 2;
+        if (myCharacter.hp > 3 && isTriggered) return;
+        myCharacter.attack += 2;
         isTriggered = true;
         UpdateText();
     }
     
     public override void UpdateText()
     {
-        myCharactor.hpText.text = myCharactor.hp.ToString();
-        targetCharactor.hpText.text = targetCharactor.hp.ToString();
+        myCharacter.hpText.text = myCharacter.hp.ToString();
+        targetCharacter.hpText.text = targetCharacter.hp.ToString();
     } 
 }
