@@ -217,10 +217,11 @@ public class Client : MonoBehaviour
 
             Debug.Log($"[Client] Received Turn Info: Player {turnEvent.currentTurnPlayerID}");
 
+            _currentTurnPlayerID = turnEvent.currentTurnPlayerID;
+            
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
                 // GameManager에 전달하기 전에 Client의 턴 ID 업데이트
-                _currentTurnPlayerID = turnEvent.currentTurnPlayerID;
                 GameManager.Instance.UpdateTurnUI();
             });
         });
