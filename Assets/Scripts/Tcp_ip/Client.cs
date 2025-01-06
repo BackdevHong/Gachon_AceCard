@@ -43,6 +43,9 @@ public class Client : MonoBehaviour
             SendBufferSize = 4096,
         };
         _client.BeginConnect(ipAddress, port, ConnectionCallback, null);
+
+        DontDestroyOnLoad(gameObject);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("CardTestScene");
     }
     
     private void SetupWelcomePacket()
