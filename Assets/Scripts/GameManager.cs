@@ -17,12 +17,12 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            // SoundManager.Instance.PlayBGM("BGM");
         }
         else
         {
             Destroy(gameObject);
         }
-        SoundManager.Instance.PlayBGM("BGM");
     }
 
     public void Connect()

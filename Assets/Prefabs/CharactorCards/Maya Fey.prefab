@@ -218,7 +218,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -244,6 +244,7 @@ MonoBehaviour:
   attack: 1
   skillCost: 4
   skillCard: {fileID: 7475530550691696509}
+  uniqueID: 
   hpText: {fileID: 1341409288473687332}
   attackText: {fileID: 3224426837322305588}
 --- !u!114 &7475530550691696509
@@ -258,8 +259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a65490c0b4459585c158d3b00d4673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCharactor: {fileID: 0}
-  targetCharactor: {fileID: 0}
+  onSelectionNeed: 0
+  myCharacter: {fileID: 0}
+  targetCharacter: {fileID: 0}
 --- !u!61 &413215002795510056
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -427,7 +429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 38.99999, y: -43.399937}
+  m_AnchoredPosition: {x: 36.5, y: -43.399937}
   m_SizeDelta: {x: 16.13, y: 16.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7672672992717962960
@@ -590,7 +592,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &7232750704510406644
 MonoBehaviour:

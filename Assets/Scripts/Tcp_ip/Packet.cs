@@ -9,7 +9,9 @@ public enum PacketType
     Welcome = 1,
     Attack,
     Skill,
-    Switch
+    Switch,
+    Turn,
+    EndTurn,
 }
 
 public class Packet
