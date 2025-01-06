@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        SoundManager.Instance.PlayBGM("BGM");
     }
 
     public void Connect()

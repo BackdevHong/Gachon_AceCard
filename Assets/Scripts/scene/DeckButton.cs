@@ -8,3 +8,4 @@ public class DeckButton : MonoBehaviour
             SceneManager.LoadScene("CardDeckScene"); // CardDeckScene으로 전환
         }
 }
+    
