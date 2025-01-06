@@ -84,7 +84,10 @@ public class ServerClient
             {
                 Server.Instance.HandleSwitchEvent(data); // HandleSwitchEvent 호출
             }
-
+            if (commandID == (int)PacketType.Turn)
+            {
+                Server.Instance.HandleTurnEvent(data); // EndTurn 요청 처리
+            }
             StartRead(); // 다음 데이터 수신 시작
         }
         catch (Exception e)
