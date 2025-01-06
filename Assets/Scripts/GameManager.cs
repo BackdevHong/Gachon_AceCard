@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text turnSeconds;
     public Button turnEndButton;
-    
-    private int _currentTurnPlayerID = 1;
 
     private CharacterCard selectedPreparationCard; // 선택된 Preparation 카드
     public bool isSwitching = false; // 교체 모드 활성화 여부
@@ -24,6 +22,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            UpdateTurnUI();
         }
         else
         {
@@ -35,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         turnEndButton.onClick.AddListener(() =>
         {
-            Client.Instance.SendTurnEndRequest(_currentTurnPlayerID);
+            Client.Instance.SendTurnEndRequest();
         });
     }
 
@@ -51,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     public void StartSwitch()
     {
-        if(_currentTurnPlayerID != Client.Instance.GetPlayerID()) return;
+        if(Client.Instance.GetCurrentTurnPlayerID() != Client.Instance.GetPlayerID()) return;
         isSwitching = true; // 교체 모드 활성화
     }
 
@@ -119,8 +118,8 @@ public class GameManager : MonoBehaviour
 
     public void NormalAttack()
     {   
-        Debug.Log($"Current Turn: {_currentTurnPlayerID}, Local Player: {Client.Instance.GetPlayerID()}");
-        if (_currentTurnPlayerID != Client.Instance.GetPlayerID())
+        Debug.Log($"Current Turn: {Client.Instance.GetCurrentTurnPlayerID()}, Local Player: {Client.Instance.GetPlayerID()}");
+        if (Client.Instance.GetCurrentTurnPlayerID() != Client.Instance.GetPlayerID())
         {
             Debug.Log("내 턴이 아닙니다. 스킬을 사용할 수 없습니다.");
             return;
@@ -151,7 +150,7 @@ public class GameManager : MonoBehaviour
     
     public void SkillAttack()
     {
-        if (_currentTurnPlayerID != Client.Instance.GetPlayerID())
+        if (Client.Instance.GetCurrentTurnPlayerID() != Client.Instance.GetPlayerID())
         {
             Debug.Log("내 턴이 아닙니다. 스킬을 사용할 수 없습니다.");
             return;
@@ -189,12 +188,10 @@ public class GameManager : MonoBehaviour
         Client.Instance.SendSkillEvent(playerId, "One");
     }
     
-    public void UpdateTurnUI(int playerID)
+    public void UpdateTurnUI()
     {
-        _currentTurnPlayerID = playerID;
-
         // UI 업데이트
-        bool isMyTurn = Client.Instance.GetPlayerID() == _currentTurnPlayerID;
+        bool isMyTurn = Client.Instance.GetPlayerID() == Client.Instance.GetCurrentTurnPlayerID();
         turnEndButton.interactable = isMyTurn;
         Debug.Log(isMyTurn ? "내 턴입니다." : "상대방의 턴입니다.");
     }

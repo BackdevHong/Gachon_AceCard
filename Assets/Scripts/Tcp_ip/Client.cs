@@ -18,6 +18,7 @@ public class Client : MonoBehaviour
     private bool _shouldLoadScene = false; // 씬 로딩 플래그
     
     private int _playerID; // 서버에서 받은 고유 ID
+    private int _currentTurnPlayerID = 1;
 
     private void Awake() {
         if (Instance == null)
@@ -111,6 +112,11 @@ public class Client : MonoBehaviour
         return _playerID; // 플레이어 ID 반환
     }
     
+    public int GetCurrentTurnPlayerID()
+    {
+        return _currentTurnPlayerID;
+    }
+    
     
     // 이벤트 함수들
     public void SendAttackEvent(int attackerPid, int damage)
@@ -167,10 +173,10 @@ public class Client : MonoBehaviour
         _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
 
-    public void SendTurnEndRequest(int playerId)
+    public void SendTurnEndRequest()
     {
-        int newTurn = playerId == 1 ? 2 : 1;
-        
+        int newTurn = GetCurrentTurnPlayerID() == 1 ? 2 : 1;
+
         Utilities.TurnEvent turnEvent = new Utilities.TurnEvent
         {
             currentTurnPlayerID = newTurn
@@ -180,9 +186,11 @@ public class Client : MonoBehaviour
         Packet packet = new Packet();
         packet.Write((int)PacketType.Turn); // 패킷 유형
         packet.Write(json); // JSON 데이터
-        
+
         // 서버로 데이터 전송
         _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
+
+        Debug.Log($"턴 종료 요청 전송: {newTurn}");
     }
 
 
@@ -211,7 +219,9 @@ public class Client : MonoBehaviour
 
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
-                GameManager.Instance.UpdateTurnUI(turnEvent.currentTurnPlayerID);
+                // GameManager에 전달하기 전에 Client의 턴 ID 업데이트
+                _currentTurnPlayerID = turnEvent.currentTurnPlayerID;
+                GameManager.Instance.UpdateTurnUI();
             });
         });
     }
