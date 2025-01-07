@@ -30,12 +30,14 @@ public class ObjectSelector : MonoBehaviour
             {
                 // 선택 취소
                 selectedObjects.Remove(clickedObject);
+                HighlightObject(clickedObject, false); // 강조 해제
                 Debug.Log($"{clickedObject.name} 선택이 취소되었습니다.");
             }
             else if (selectedObjects.Count < 3)
             {
                 // 선택 목록에 추가
                 selectedObjects.Add(clickedObject);
+                HighlightObject(clickedObject, true); // 강조 추가
                 Debug.Log($"오브젝트 셀렉터{clickedObject.name}이(가) 선택되었습니다.");
             }
             else
@@ -65,5 +67,16 @@ public class ObjectSelector : MonoBehaviour
     public List<GameObject> GetSelectedObjects()
     {
         return new List<GameObject>(selectedObjects);
+    }
+    private void HighlightObject(GameObject obj, bool isHighlighted)
+    {
+        if (isHighlighted)
+        {
+            obj.transform.localScale *= 1.1f; // 크기를 10% 증가
+        }
+        else
+        {
+            obj.transform.localScale /= 1.1f; // 원래 크기로 복원
+        }
     }
 }
