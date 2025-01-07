@@ -51,7 +51,16 @@ public class CharacterCard : MonoBehaviour
     
     private void OnMouseDown()
     {
-        if (GameManager.Instance.isSwitching)
+        if (ObjectSelector.Instance != null)
+        {
+            ObjectSelector.Instance.SelectObject(gameObject);
+        }
+        else
+        {
+            Debug.Log("ObjectSelector Instance가 존재하지 않습니다.");
+        }
+
+        if (GameManager.Instance)
         {
             // GameManager의 SelectParticipationCard 호출
             GameManager.Instance.SelectPreparationCard(this);
