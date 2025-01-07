@@ -105,7 +105,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 20
+<<<<<<< HEAD
   attack: 1
+=======
+  attack: 0
+>>>>>>> 5f119d85218abdeebbf96bdf36f94c2a6530dc73
   skillCard: {fileID: 445818503836123048}
   uniqueID: 
   hpText: {fileID: 3833522095619001749}
@@ -126,8 +130,12 @@ MonoBehaviour:
   onSelectionNeed: 0
   skillType: 0
   skillCost: 0
+<<<<<<< HEAD
   myCharacter: {fileID: 0}
   targetCharacter: {fileID: 0}
+=======
+  myCharacter: {fileID: -612850091615959410}
+>>>>>>> 5f119d85218abdeebbf96bdf36f94c2a6530dc73
   selectedType: 
 --- !u!61 &4735576305031409738
 BoxCollider2D:

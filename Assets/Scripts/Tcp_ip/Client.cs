@@ -15,12 +15,14 @@ public class Client : MonoBehaviour
     private bool _connected;
 
     private Dictionary<int, Action<byte[]>> _connectedActions = new Dictionary<int, Action<byte[]>>();
-    private Dictionary<int, int> _playerCosts = new Dictionary<int, int>();
+    private int _cost = 1;
     
     private bool _shouldLoadScene = false; // 씬 로딩 플래그
     
     private int _playerID; // 서버에서 받은 고유 ID
     private int _currentTurnPlayerID = 1;
+    public Dictionary<int, int> PlayerCosts; // 각 클라이언트의 코스트 관리
+    public bool ready = false;
 
     private void Awake() {
         if (Instance == null)
@@ -32,7 +34,9 @@ public class Client : MonoBehaviour
             SetupSkillEventHandler();
             SetupSwitchEventHandler();
             SetupTurnEventHandler();
-            SetupCostUpdateHandler();
+            SetupCostEventHandler();
+            SetupCostAddEventHandler();
+            SetupPlayerCountHandler();
         }
         else
         {
@@ -50,6 +54,11 @@ public class Client : MonoBehaviour
         };
         _client.BeginConnect(ipAddress, port, ConnectionCallback, null);
 
+        PlayerCosts = new Dictionary<int, int>()
+        {
+            {1, 1},
+            {2, 1}
+        };
         DontDestroyOnLoad(gameObject);
         UnityEngine.SceneManagement.SceneManager.LoadScene("CardTestScene");
     }
@@ -197,6 +206,40 @@ public class Client : MonoBehaviour
 
         Debug.Log($"턴 종료 요청 전송: {newTurn}");
     }
+    
+    public void SendUpdateCostEvent(int useCost)
+    {
+        Utilities.CostEvent costEvent = new Utilities.CostEvent
+        {
+            playerID = GetPlayerID(),
+            usedCost = useCost
+        };
+        
+        string json = JsonUtility.ToJson(costEvent);
+        Packet packet = new Packet();
+        packet.Write((int)PacketType.CostUpdate); // 패킷 유형
+        packet.Write(json); // JSON 데이터
+
+        // 서버로 데이터 전송
+        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
+    }
+    
+    public void SendAddCostEvent(int playerId, int addCost)
+    {
+        Utilities.CostAddEvent costEvent = new Utilities.CostAddEvent
+        {
+            playerID = playerId,
+            addCost = addCost
+        };
+        
+        string json = JsonUtility.ToJson(costEvent);
+        Packet packet = new Packet();
+        packet.Write((int)PacketType.CostAdd); // 패킷 유형
+        packet.Write(json); // JSON 데이터
+
+        // 서버로 데이터 전송
+        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
+    }
 
 
     // 패킷 등록
@@ -209,6 +252,15 @@ public class Client : MonoBehaviour
             _playerID = packet.ReadInt(); // 서버로부터 PlayerID 읽기
             Debug.Log($"서버로부터 받은 Player ID: {_playerID}");
         });
+    }
+    
+    public void SendReadyPacket()
+    {
+        Packet packet = new Packet();
+        packet.Write((int)PacketType.PlayerCount);
+        packet.Write(Client.Instance.GetPlayerID()); // 플레이어 ID 포함
+        Debug.Log($"클라이언트에서 서버로 준비 완료 패킷 전송: PlayerID {Client.Instance.GetPlayerID()}");
+        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
     
     private void SetupTurnEventHandler()
@@ -298,23 +350,56 @@ public class Client : MonoBehaviour
         });
     }
     
-    private void SetupCostUpdateHandler()
+    private void SetupCostEventHandler()
     {
         RegisterAction((int)PacketType.CostUpdate, data =>
         {
             Packet packet = new Packet(data);
             int type = packet.ReadInt();
-            string costData = packet.ReadString();
+            string json = packet.ReadString();
+            Utilities.CostEvent switchEvent = JsonUtility.FromJson<Utilities.CostEvent>(json);
 
-            _playerCosts = JsonUtility.FromJson<Dictionary<int, int>>(costData);
-            Debug.Log("Received cost update from server.");
-
+            // Debug.Log($"받은 Cost Event: Player {switchEvent.playerID}, Card {switchEvent.usedCost}");
+            // 타겟 카드 교체 반영
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
-                GameManager.Instance.UpdateCostUI(_playerCosts); // UI 업데이트
+                GameManager.Instance.UpdateCost(switchEvent);
             });
         });
     }
+    
+    private void SetupPlayerCountHandler()
+    {
+        RegisterAction((int)PacketType.PlayerCount, data =>
+        {
+            if(ready) return;
+            MainThreadDispatcher.ExecuteOnMainThread(() =>
+            {
+                GameManager.Instance.SetupPlayerPositions();
+                GameManager.Instance.AdjustCardRotation();
+                ready = true;
+            });
+        });
+    }
+
+    private void SetupCostAddEventHandler()
+    {
+        RegisterAction((int)PacketType.CostAdd, data =>
+        {
+            Packet packet = new Packet(data);
+            int type = packet.ReadInt();
+            string json = packet.ReadString();
+            Utilities.CostAddEvent switchEvent = JsonUtility.FromJson<Utilities.CostAddEvent>(json);
+
+            Debug.Log($"받은 Cost Event: Player {switchEvent.playerID}, Add {switchEvent.addCost}");
+            // 타겟 카드 교체 반영
+            MainThreadDispatcher.ExecuteOnMainThread(() =>
+            {
+                GameManager.Instance.AddCost(switchEvent);
+            });
+        });
+    }
+    
 
     // 카드 찾는 함수    
     private CharacterCard FindMyCardById(int pid)
@@ -373,4 +458,5 @@ public class Client : MonoBehaviour
     {
         _connectedActions.TryAdd(packetType, action);
     }
+
 }

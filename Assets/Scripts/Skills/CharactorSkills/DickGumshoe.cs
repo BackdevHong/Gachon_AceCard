@@ -10,7 +10,7 @@ public class DickGumshoe : Skill
     private void Awake()
     {
         skillType = SkillType.All; // 스킬 타입 설정
-        skillCost = 2; // 스킬 비용 설정
+        skillCost = 4; // 스킬 비용 설정
     }
     
     public override void OnSkill()
@@ -21,7 +21,7 @@ public class DickGumshoe : Skill
             return;
         }
 
-        myCharacter.TakeDamage(2); // 스킬 비용
+        myCharacter.TakeDamage(1); // 스킬 비용
         int enemyPid = Client.Instance.GetPlayerID() == 1 ? 2 : 1; 
         List<CharacterCard> allCards = GameManager.Instance.GetAllCards(enemyPid);
         foreach (var card in allCards)

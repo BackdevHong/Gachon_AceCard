@@ -88,6 +88,18 @@ public class ServerClient
             {
                 Server.Instance.HandleTurnEvent(data); // EndTurn 요청 처리
             }
+            if (commandID == (int)PacketType.CostUpdate)
+            {
+                Server.Instance.HandleCostEvent(data);
+            }
+            if (commandID == (int)PacketType.CostAdd)
+            {
+                Server.Instance.HandleCostAddEvent(data);
+            }
+            if (commandID == (int)PacketType.PlayerCount)
+            {
+                Server.Instance.HandlePlayerCountEvent(data);
+            }
             StartRead(); // 다음 데이터 수신 시작
         }
         catch (Exception e)

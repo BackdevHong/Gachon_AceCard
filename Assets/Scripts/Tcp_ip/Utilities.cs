@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Utilities
@@ -30,5 +31,32 @@ public class Utilities
     public class TurnEvent
     {
         public int currentTurnPlayerID; // 현재 턴을 가진 플레이어 ID
+    }
+    
+    [Serializable]
+    public class CostEvent
+    {
+        public int playerID;
+        public int usedCost;
+    }
+    
+    [Serializable]
+    public class CostAddEvent
+    {
+        public int playerID;
+        public int addCost;
+    }
+    
+    [Serializable]
+    public class CostData
+    {
+        public int PlayerID;
+        public int Cost;
+
+        public CostData(int playerID, int cost)
+        {
+            PlayerID = playerID;
+            Cost = cost;
+        }
     }
 }

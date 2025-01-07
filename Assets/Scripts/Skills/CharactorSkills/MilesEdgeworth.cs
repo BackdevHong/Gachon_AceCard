@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿using Skills;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class MilesEdgeworth : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
     
-
+    private void Awake()
+    {
+        skillType = SkillType.One; // 스킬 타입 설정
+        skillCost = 3; // 스킬 비용 설정
+    }
     public override void OnSkill()
     {
         if (SelectedTarget == null)
@@ -17,7 +22,7 @@ public class MilesEdgeworth : Skill
         SelectedTarget.TakeDamage(2); // 대상에게 데미지
         if (myCharacter.hp <= 3)
         {
-            SelectedTarget.TakeDamage(2); // 대상에게 데미지
+            SelectedTarget.TakeDamage(4); // 대상에게 데미지
         }
     }
 }

@@ -17,12 +17,18 @@ public class GameManager : MonoBehaviour
     public bool isSwitching = false; // 교체 모드 활성화 여부
     public static GameManager Instance;
 
+    private int _turnC = -1;
+    private int _Round = 0;
+    
+    
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             UpdateTurnUI();
+            Client.Instance.SendReadyPacket();
+
         }
         else
         {
@@ -36,6 +42,47 @@ public class GameManager : MonoBehaviour
         {
             Client.Instance.SendTurnEndRequest();
         });
+        UpdateCostUI();
+    }
+    
+    public void SetupPlayerPositions()
+    {
+        int playerId = Client.Instance.GetPlayerID(); // 현재 플레이어 ID
+        int opponentId = playerId == 1 ? 2 : 1; // 상대방 ID
+
+        if (opponentId == 2)
+        {
+            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
+            GameObject player = GameObject.FindWithTag($"Player{playerId}");
+            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
+
+            // 위치 설정
+            player.transform.position = new Vector3(-1.92f, 0f, 0); // 자신의 카드 (아래쪽)
+            opponent.transform.position = new Vector3(-1.92f, 0f, 0); // 상대방의 카드 (위쪽)
+        }
+        else
+        {
+            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
+            GameObject player = GameObject.FindWithTag($"Player{playerId}");
+            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
+
+            // 위치 설정
+            player.transform.position = new Vector3(-1.92f, -6.2f, 0); // 자신의 카드 (아래쪽)
+            opponent.transform.position = new Vector3(-1.92f, 6.2f, 0); // 상대방의 카드 (위쪽)
+        }
+        
+        Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");
+    }
+    
+    public void AdjustCardRotation()
+    {
+        int playerId = Client.Instance.GetPlayerID();
+        int opponentId = playerId == 1 ? 2 : 1;
+        
+        foreach (var characterCard in GetAllCards(opponentId))
+        {
+            characterCard.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
     }
 
     public void Connect()
@@ -113,6 +160,7 @@ public class GameManager : MonoBehaviour
             participationCards[0].transform.position = preparationPosition;
 
             Debug.Log($"Player {playerId} 카드 교체 완료: {participationCards[0].name} <-> {targetCard.name}");
+            Client.Instance.SendUpdateCostEvent(1);
         }
     }
 
@@ -125,6 +173,19 @@ public class GameManager : MonoBehaviour
             return;
         }
         int playerId = Client.Instance.GetPlayerID();
+        if (!Client.Instance.PlayerCosts.TryGetValue(playerId, out int playerCost))
+        {
+            Debug.LogError($"Player {playerId} not found in _playerCosts.");
+            return;
+        }
+
+        Debug.Log($"Player {playerId} Current Cost: {playerCost}");
+
+        if (playerCost < 1)
+        {
+            Debug.Log("코스트가 부족합니다.");
+            return;
+        }
         int opponentId = playerId == 1 ? 2 : 1; // 상대 플레이어의 ID 계산
         GameObject myParticipation = GameObject.FindGameObjectsWithTag("Player" + playerId)[0]
             .transform.Find("Participation").gameObject;
@@ -147,6 +208,7 @@ public class GameManager : MonoBehaviour
             }
             var targetCard = opponentCards[0];
             Debug.Log($"Player{playerId}이(가) {targetCard.name}에게 일반 공격을 했습니다.");
+            Client.Instance.SendUpdateCostEvent(1);
             Client.Instance.SendAttackEvent(playerId, damage);
         }
         else
@@ -201,6 +263,7 @@ public class GameManager : MonoBehaviour
         var targetCard = opponentCards[0];
         Debug.Log($"Player{Client.Instance.GetPlayerID()}이(가) {targetCard.name}에게 스킬 공격을 했습니다.");
         Client.Instance.SendSkillEvent(playerId, activeCard.skillCard.skillType, activeCard.skillCard.skillCost);
+        Client.Instance.SendUpdateCostEvent(activeCard.skillCard.skillCost);
     }
 
     public List<CharacterCard> GetAllCards(int playerID)
@@ -228,12 +291,33 @@ public class GameManager : MonoBehaviour
         // UI 업데이트
         bool isMyTurn = Client.Instance.GetPlayerID() == Client.Instance.GetCurrentTurnPlayerID();
         turnEndButton.interactable = isMyTurn;
+        _turnC += 1;
+        if (_turnC >= 2)
+        {
+            _turnC = 0;
+            _Round += 1;
+            Client.Instance.SendAddCostEvent(Client.Instance.GetPlayerID(), 1);
+        }
         Debug.Log(isMyTurn ? "내 턴입니다." : "상대방의 턴입니다.");
     }
 
-    public void UpdateCostUI(Dictionary<int, int> dictionary)
+    public void UpdateCostUI()
     {
-        player1cost.text = dictionary[1].ToString();
-        player2cost.text = dictionary[2].ToString();
+        if (Client.Instance.GetPlayerID() == 0) return;
+        
+        player1cost.text = Client.Instance.PlayerCosts[1].ToString();
+        player2cost.text = Client.Instance.PlayerCosts[2].ToString();
+    }
+    
+    public void UpdateCost(Utilities.CostEvent costEvent)
+    {
+        Client.Instance.PlayerCosts[costEvent.playerID] -= costEvent.usedCost;
+        UpdateCostUI();
+    }
+    
+    public void AddCost(Utilities.CostAddEvent costAddEvent)
+    {
+        Client.Instance.PlayerCosts[costAddEvent.playerID] += costAddEvent.addCost;
+        UpdateCostUI();
     }
 }

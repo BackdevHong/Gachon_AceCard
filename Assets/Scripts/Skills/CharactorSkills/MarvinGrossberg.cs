@@ -1,19 +1,29 @@
-﻿using UnityEngine.Serialization;
+﻿using System.Collections.Generic;
+using Skills;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MarvinGrossberg : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
-
+    private void Awake()
+    {
+        skillType = SkillType.All; // 스킬 타입 설정
+        skillCost = 6; // 스킬 비용 설정
+    }
     public override void OnSkill()
     {
-        targetCharacter.hp -= 2;
-        // 네트워크 관련 로직 구성 이후, 모든 플레이어 대상으로 한 스킬 구현
+        if (SelectedTarget == null)
+        {
+            Debug.LogError("스킬 발동 조건이 충족되지 않았습니다.");
+            return;
+        }
+        
+        SelectedTarget.TakeDamage(1); // 대상에게 데미지
+        List<CharacterCard> myCharacterList = GameManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
+        foreach (var card in myCharacterList)
+        {
+            card.Heal(3); // 아군 모두에게 힐
+        }
     }
-    
-    public override void UpdateText()
-    {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
 }

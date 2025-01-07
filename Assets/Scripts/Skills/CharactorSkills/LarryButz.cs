@@ -1,19 +1,24 @@
-﻿using UnityEngine.Serialization;
+﻿using Skills;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LarryButz : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
-
-    public override void OnSkill()
+    private void Awake()
     {
-        targetCharacter.hp -= 3;
-        // 자신 제외 모든 캐릭터 hp 업 네트워크 구성 완료 이후 수정
+        skillType = SkillType.One; // 스킬 타입 설정
+        skillCost = 3; // 스킬 비용 설정
     }
     
-    public override void UpdateText()
+    public override void OnSkill()
     {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
+        if (SelectedTarget == null)
+        {
+            Debug.LogError("스킬 발동 조건이 충족되지 않았습니다.");
+            return;
+        }
+        
+        SelectedTarget.TakeDamage(4); // 대상에게 데미지
+    }
 }

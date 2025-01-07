@@ -1,21 +1,17 @@
-﻿using UnityEngine.Serialization;
+﻿using Skills;
+using UnityEngine.Serialization;
 
 public class PheonixWright : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter;
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter;
-
+    private void Awake()
+    {
+        skillType = SkillType.One; // 스킬 타입 설정
+        skillCost = 3; // 스킬 비용 설정
+    }
     public override void OnSkill()
     {
-        myCharacter.hp += 1;
-        targetCharacter.hp -= 2;
-        throw new System.NotImplementedException();
-        UpdateText();
+        myCharacter.Heal(1);
+        SelectedTarget.TakeDamage(3);
     }
-    
-    public override void UpdateText()
-    {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
 }
