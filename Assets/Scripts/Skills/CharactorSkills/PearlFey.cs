@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using Skills;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class PearlFey : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter;
-
+    private void Awake()
+    {
+        skillType = SkillType.All; // 스킬 타입 설정
+        skillCost = 2; // 스킬 비용 설정
+    }
     public override void OnSkill()
     {
         if (SelectedTarget == null)
@@ -13,7 +18,7 @@ public class PearlFey : Skill
             return;
         }
         
-        SelectedTarget.TakeDamage(1);
+        SelectedTarget.TakeDamage(2);
         myCharacter.Heal(1);
     }
 }

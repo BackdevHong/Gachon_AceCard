@@ -24,14 +24,14 @@ public class WinstonPayne : Skill
         if (chance == 0)
         {
             // 상대에게 3의 피해를 줌
-            SelectedTarget.TakeDamage(3);
-            Debug.Log("상대에게 3의 피해를 주었습니다.");
+            SelectedTarget.TakeDamage(4);
+            Debug.Log("상대에게 4의 피해를 주었습니다.");
         }
         else
         {
             // 본인에게 2의 피해를 줌
-            myCharacter.TakeDamage(2);
-            Debug.Log("본인에게 2의 피해를 입었습니다.");
+            myCharacter.TakeDamage(4);
+            Debug.Log("본인에게 4의 피해를 입었습니다.");
         }
     }
 }

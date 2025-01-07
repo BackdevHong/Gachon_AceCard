@@ -104,9 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdaf73d5c48c2b4a93a4d559a86b129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  attack: 1
-  skillCost: 3
+  hp: 18
+  attack: 4
   skillCard: {fileID: 59661165054374747}
   uniqueID: 
   hpText: {fileID: 8624331337142732307}
@@ -124,8 +123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onSelectionNeed: 0
-  myCharacter: {fileID: 0}
-  targetCharacter: {fileID: 0}
+  skillType: 0
+  skillCost: 0
+  myCharacter: {fileID: -612850091615959410}
 --- !u!61 &-1365755655859576436
 BoxCollider2D:
   m_ObjectHideFlags: 0

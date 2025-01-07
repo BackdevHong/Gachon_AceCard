@@ -9,7 +9,7 @@ public class Godot : Skill
     private void Awake()
     {
         skillType = SkillType.All; // 스킬 타입 설정
-        skillCost = 2; // 스킬 비용 설정
+        skillCost = 3; // 스킬 비용 설정
     }
     public override void OnSkill()
     {
@@ -19,6 +19,6 @@ public class Godot : Skill
             return;
         }
         
-        SelectedTarget.TakeDamage(3);
+        SelectedTarget.TakeDamage(4);
     }
 }

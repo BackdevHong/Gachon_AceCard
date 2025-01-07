@@ -22,6 +22,7 @@ public class Client : MonoBehaviour
     private int _playerID; // 서버에서 받은 고유 ID
     private int _currentTurnPlayerID = 1;
     public Dictionary<int, int> PlayerCosts; // 각 클라이언트의 코스트 관리
+    public bool ready = false;
 
     private void Awake() {
         if (Instance == null)
@@ -35,6 +36,7 @@ public class Client : MonoBehaviour
             SetupTurnEventHandler();
             SetupCostEventHandler();
             SetupCostAddEventHandler();
+            SetupPlayerCountHandler();
         }
         else
         {
@@ -252,6 +254,15 @@ public class Client : MonoBehaviour
         });
     }
     
+    public void SendReadyPacket()
+    {
+        Packet packet = new Packet();
+        packet.Write((int)PacketType.PlayerCount);
+        packet.Write(Client.Instance.GetPlayerID()); // 플레이어 ID 포함
+        Debug.Log($"클라이언트에서 서버로 준비 완료 패킷 전송: PlayerID {Client.Instance.GetPlayerID()}");
+        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
+    }
+    
     private void SetupTurnEventHandler()
     {
         RegisterAction((int)PacketType.Turn, data =>
@@ -353,6 +364,20 @@ public class Client : MonoBehaviour
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
                 GameManager.Instance.UpdateCost(switchEvent);
+            });
+        });
+    }
+    
+    private void SetupPlayerCountHandler()
+    {
+        RegisterAction((int)PacketType.PlayerCount, data =>
+        {
+            if(ready) return;
+            MainThreadDispatcher.ExecuteOnMainThread(() =>
+            {
+                GameManager.Instance.SetupPlayerPositions();
+                GameManager.Instance.AdjustCardRotation();
+                ready = true;
             });
         });
     }

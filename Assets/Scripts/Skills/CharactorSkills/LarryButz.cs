@@ -8,7 +8,7 @@ public class LarryButz : Skill
     private void Awake()
     {
         skillType = SkillType.One; // 스킬 타입 설정
-        skillCost = 2; // 스킬 비용 설정
+        skillCost = 3; // 스킬 비용 설정
     }
     
     public override void OnSkill()
@@ -19,6 +19,6 @@ public class LarryButz : Skill
             return;
         }
         
-        SelectedTarget.TakeDamage(3); // 대상에게 데미지
+        SelectedTarget.TakeDamage(4); // 대상에게 데미지
     }
 }

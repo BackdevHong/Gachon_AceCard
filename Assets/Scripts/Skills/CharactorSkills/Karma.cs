@@ -1,13 +1,17 @@
 ﻿using System;
+using Skills;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Karma : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
     public String selectedType;
-
+    private void Awake()
+    {
+        skillType = SkillType.One; // 스킬 타입 설정
+        skillCost = 3; // 스킬 비용 설정
+    }
     public override void OnSkill()
     {
         myCharacter.hp -= 2;
@@ -24,10 +28,4 @@ public class Karma : Skill
     {
         // 선택지 관련 로직 
     }
-    
-    public override void UpdateText()
-    {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
 }

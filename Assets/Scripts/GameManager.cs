@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             UpdateTurnUI();
+            Client.Instance.SendReadyPacket();
+
         }
         else
         {
@@ -41,6 +43,46 @@ public class GameManager : MonoBehaviour
             Client.Instance.SendTurnEndRequest();
         });
         UpdateCostUI();
+    }
+    
+    public void SetupPlayerPositions()
+    {
+        int playerId = Client.Instance.GetPlayerID(); // 현재 플레이어 ID
+        int opponentId = playerId == 1 ? 2 : 1; // 상대방 ID
+
+        if (opponentId == 2)
+        {
+            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
+            GameObject player = GameObject.FindWithTag($"Player{playerId}");
+            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
+
+            // 위치 설정
+            player.transform.position = new Vector3(-1.92f, 0f, 0); // 자신의 카드 (아래쪽)
+            opponent.transform.position = new Vector3(-1.92f, 0f, 0); // 상대방의 카드 (위쪽)
+        }
+        else
+        {
+            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
+            GameObject player = GameObject.FindWithTag($"Player{playerId}");
+            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
+
+            // 위치 설정
+            player.transform.position = new Vector3(-1.92f, -6.2f, 0); // 자신의 카드 (아래쪽)
+            opponent.transform.position = new Vector3(-1.92f, 6.2f, 0); // 상대방의 카드 (위쪽)
+        }
+        
+        Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");
+    }
+    
+    public void AdjustCardRotation()
+    {
+        int playerId = Client.Instance.GetPlayerID();
+        int opponentId = playerId == 1 ? 2 : 1;
+        
+        foreach (var characterCard in GetAllCards(opponentId))
+        {
+            characterCard.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
     }
 
     public void Connect()

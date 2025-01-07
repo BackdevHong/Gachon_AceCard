@@ -12,7 +12,8 @@ public enum PacketType
     Switch,
     Turn,
     CostUpdate,
-    CostAdd
+    CostAdd,
+    PlayerCount
 }
 
 public class Packet

@@ -6,12 +6,11 @@ using UnityEngine.Serialization;
 public class MiaFey : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter;
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter;
     
     private void Awake()
     {
         skillType = SkillType.All; // 스킬 타입 설정
-        skillCost = 2; // 스킬 비용 설정
+        skillCost = 6; // 스킬 비용 설정
     }
     
     public override void OnSkill()
@@ -29,13 +28,7 @@ public class MiaFey : Skill
         
         foreach (var card in enemyCards)
         {
-            card.TakeDamage(2);
+            card.TakeDamage(1);
         }
     }
-    
-    public override void UpdateText()
-    {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
 }
