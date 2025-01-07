@@ -103,14 +103,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fdaf73d5c48c2b4a93a4d559a86b129, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-<<<<<<< HEAD
-  hp: 20
-  attack: 1
-=======
+  m_EditorClassIdentifier:
   hp: 19
   attack: 2
->>>>>>> 5f119d85218abdeebbf96bdf36f94c2a6530dc73
   skillCard: {fileID: 3575930105431093004}
   uniqueID: 
   hpText: {fileID: 3332176485003108369}

@@ -126,12 +126,7 @@ MonoBehaviour:
   onSelectionNeed: 0
   skillType: 0
   skillCost: 0
-<<<<<<< HEAD
-  myCharacter: {fileID: 0}
-  targetCharacter: {fileID: 0}
-=======
   myCharacter: {fileID: -612850091615959410}
->>>>>>> 5f119d85218abdeebbf96bdf36f94c2a6530dc73
 --- !u!61 &8120818369949320317
 BoxCollider2D:
   m_ObjectHideFlags: 0
