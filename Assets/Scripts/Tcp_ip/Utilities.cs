@@ -8,6 +8,7 @@ public class Utilities
     {
         public int attackPlayerID; // 공격자 ID
         public int damage;     // 데미지
+        public int cost;       // 코스트
     }
     
     [Serializable]
@@ -15,6 +16,7 @@ public class Utilities
     {
         public int attackPlayerID;
         public string type; // 공격자 ID
+        public int cost; // 코스트
     }
     
     [Serializable]

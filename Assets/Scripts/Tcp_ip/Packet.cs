@@ -11,7 +11,7 @@ public enum PacketType
     Skill,
     Switch,
     Turn,
-    EndTurn,
+    CostUpdate
 }
 
 public class Packet

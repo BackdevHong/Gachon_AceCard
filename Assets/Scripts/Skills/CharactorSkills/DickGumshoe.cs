@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Skills;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class DickGumshoe : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
-    public string type;
+    
+    private void Awake()
+    {
+        skillType = SkillType.All; // 스킬 타입 설정
+        skillCost = 2; // 스킬 비용 설정
+    }
+    
     public override void OnSkill()
     {
         if (SelectedTarget == null)
@@ -13,8 +21,13 @@ public class DickGumshoe : Skill
             return;
         }
 
-        myCharacter.hp -= 2; // 스킬 비용
-        SelectedTarget.TakeDamage(5); // 대상에게 데미지
+        myCharacter.TakeDamage(2); // 스킬 비용
+        int enemyPid = Client.Instance.GetPlayerID() == 1 ? 2 : 1; 
+        List<CharacterCard> allCards = GameManager.Instance.GetAllCards(enemyPid);
+        foreach (var card in allCards)
+        {
+            card.TakeDamage(2); // 적군 모두에게 데미지
+        }
         Debug.Log($"{myCharacter.name}이(가) {SelectedTarget.name}에게 스킬을 사용했습니다.");
     }
 

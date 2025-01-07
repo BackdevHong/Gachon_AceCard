@@ -1,19 +1,26 @@
-﻿using UnityEngine.Serialization;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MayaFey : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter; // 스킬 사용자
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
 
     public override void OnSkill()
     {
-        myCharacter.hp += 3;
-        // 자신 제외 모든 캐릭터 hp 업 네트워크 구성 완료 이후 수정
+        if (SelectedTarget == null)
+        {
+            Debug.LogError("스킬 발동 조건이 충족되지 않았습니다.");
+            return;
+        }
+        
+        myCharacter.Heal(3);
+        
+        List<CharacterCard> allCards = GameManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
+        foreach (var card in allCards)
+        {
+            if (card != myCharacter) continue;
+            card.Heal(2); // 아군 모두에게 회복
+        }
     }
-    
-    public override void UpdateText()
-    {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
 }

@@ -1,4 +1,5 @@
 using System;
+using Skills;
 using TMPro;
 using UnityEngine;
 
@@ -6,10 +7,11 @@ public class CharacterCard : MonoBehaviour
 {
     public int hp; // 체력
     public int attack = 0; // 공격력
-    public int skillCost = 0;
+    
+    // 스킬 파라미터
     public Skill skillCard;
+    
     public string uniqueID; // 고유 ID
-
     public TMP_Text hpText; // 체력 표시 TextMeshPro
     public TMP_Text attackText; // 공격력 표시 TextMeshPro
     private void Awake()
@@ -25,7 +27,7 @@ public class CharacterCard : MonoBehaviour
         UpdateUI();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         hpText.text = $"{hp}";
         attackText.text = $"{attack}";
@@ -42,11 +44,11 @@ public class CharacterCard : MonoBehaviour
             Destroy(gameObject); // 카드 제거
         }
     }
-
-    public void Attack(CharacterCard target)
+    
+    public void Heal(int heal)
     {
-        Debug.Log($"{name}이(가) {target.name}을(를) 공격합니다.");
-        target.TakeDamage(attack);
+        hp += heal;
+        UpdateUI();
     }
     
     private void OnMouseDown()
