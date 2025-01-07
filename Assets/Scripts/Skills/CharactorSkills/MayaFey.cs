@@ -19,7 +19,7 @@ public class MayaFey : Skill
         List<CharacterCard> allCards = GameManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
         foreach (var card in allCards)
         {
-            if (card != myCharacter) continue;
+            if (card == myCharacter) continue;
             card.Heal(2); // 아군 모두에게 회복
         }
     }

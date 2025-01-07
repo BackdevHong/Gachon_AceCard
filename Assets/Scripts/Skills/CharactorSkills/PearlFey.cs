@@ -1,21 +1,19 @@
-﻿using UnityEngine.Serialization;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PearlFey : Skill
 {
     [FormerlySerializedAs("myCharactor")] public CharacterCard myCharacter;
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter;
 
     public override void OnSkill()
     {
-        myCharacter.hp += 1;
-        targetCharacter.hp -= 1;
-        throw new System.NotImplementedException();
-        UpdateText();
+        if (SelectedTarget == null)
+        {
+            Debug.LogError("스킬 발동 조건이 충족되지 않았습니다.");
+            return;
+        }
+        
+        SelectedTarget.TakeDamage(1);
+        myCharacter.Heal(1);
     }
-    
-    public override void UpdateText()
-    {
-        myCharacter.hpText.text = myCharacter.hp.ToString();
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
-    } 
 }
