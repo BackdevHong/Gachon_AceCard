@@ -36,7 +36,7 @@ public class Client : MonoBehaviour
             SetupTurnEventHandler();
             SetupCostEventHandler();
             SetupCostAddEventHandler();
-            SetupPlayerCountHandler();
+            // SetupPlayerCountHandler();
         }
         else
         {
@@ -256,6 +256,8 @@ public class Client : MonoBehaviour
     
     public void SendReadyPacket()
     {
+        if (ready) return; // 이미 준비 상태라면 패킷 전송하지 않음
+
         Packet packet = new Packet();
         packet.Write((int)PacketType.PlayerCount);
         packet.Write(Client.Instance.GetPlayerID()); // 플레이어 ID 포함
@@ -372,12 +374,10 @@ public class Client : MonoBehaviour
     {
         RegisterAction((int)PacketType.PlayerCount, data =>
         {
-            if(ready) return;
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
                 GameManager.Instance.SetupPlayerPositions();
                 GameManager.Instance.AdjustCardRotation();
-                ready = true;
             });
         });
     }

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             UpdateTurnUI();
-            Client.Instance.SendReadyPacket();
+            // Client.Instance.SendReadyPacket();
 
         }
         else
@@ -43,13 +43,17 @@ public class GameManager : MonoBehaviour
             Client.Instance.SendTurnEndRequest();
         });
         UpdateCostUI();
+        SetupPlayerPositions();
+        AdjustCardRotation();
     }
     
     public void SetupPlayerPositions()
     {
         int playerId = Client.Instance.GetPlayerID(); // 현재 플레이어 ID
         int opponentId = playerId == 1 ? 2 : 1; // 상대방 ID
-
+        
+        if (Client.Instance.ready) return;
+        
         if (opponentId == 2)
         {
             // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
@@ -70,12 +74,14 @@ public class GameManager : MonoBehaviour
             player.transform.position = new Vector3(-1.92f, -6.2f, 0); // 자신의 카드 (아래쪽)
             opponent.transform.position = new Vector3(-1.92f, 6.2f, 0); // 상대방의 카드 (위쪽)
         }
-        
+
         Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");
     }
     
     public void AdjustCardRotation()
     {
+        if (Client.Instance.ready) return;
+
         int playerId = Client.Instance.GetPlayerID();
         int opponentId = playerId == 1 ? 2 : 1;
         
@@ -83,6 +89,8 @@ public class GameManager : MonoBehaviour
         {
             characterCard.transform.rotation = Quaternion.Euler(0, 0, 180);
         }
+        
+        Client.Instance.ready = true;
     }
 
     public void Connect()
@@ -252,9 +260,15 @@ public class GameManager : MonoBehaviour
             return;
         }
         
-        int myCost = Client.Instance.GetPlayerID() == 1 ? int.Parse(player1cost.text) : int.Parse(player2cost.text);
-        
-        if (activeCard.skillCard.skillCost > myCost)
+        if (!Client.Instance.PlayerCosts.TryGetValue(playerId, out int playerCost))
+        {
+            Debug.LogError($"Player {playerId} not found in _playerCosts.");
+            return;
+        }
+
+        Debug.Log($"Player {playerId} Current Cost: {playerCost}");
+
+        if (activeCard.skillCard.skillCost > playerCost)
         {
             Debug.Log("코스트가 부족합니다.");
             return;
@@ -263,6 +277,7 @@ public class GameManager : MonoBehaviour
         var targetCard = opponentCards[0];
         Debug.Log($"Player{Client.Instance.GetPlayerID()}이(가) {targetCard.name}에게 스킬 공격을 했습니다.");
         Client.Instance.SendSkillEvent(playerId, activeCard.skillCard.skillType, activeCard.skillCard.skillCost);
+        Debug.Log(activeCard.skillCard.skillCost);
         Client.Instance.SendUpdateCostEvent(activeCard.skillCard.skillCost);
     }
 
