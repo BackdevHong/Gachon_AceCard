@@ -104,12 +104,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdaf73d5c48c2b4a93a4d559a86b129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+  hp: 20
+  attack: 1
+=======
   hp: 18
   attack: 4
+>>>>>>> 5f119d85218abdeebbf96bdf36f94c2a6530dc73
   skillCard: {fileID: 59661165054374747}
   uniqueID: 
   hpText: {fileID: 8624331337142732307}
   attackText: {fileID: 4678929860310190991}
+  popup: {fileID: 0}
 --- !u!114 &59661165054374747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +131,12 @@ MonoBehaviour:
   onSelectionNeed: 0
   skillType: 0
   skillCost: 0
+<<<<<<< HEAD
+  myCharacter: {fileID: 0}
+  targetCharacter: {fileID: 0}
+=======
   myCharacter: {fileID: -612850091615959410}
+>>>>>>> 5f119d85218abdeebbf96bdf36f94c2a6530dc73
 --- !u!61 &-1365755655859576436
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -559,7 +570,7 @@ RectTransform:
   m_GameObject: {fileID: 6469897977620035341}
   m_LocalRotation: {x: 0, y: 0.004363274, z: 0, w: 0.9999905}
   m_LocalPosition: {x: 0, y: 0, z: 0.0101}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.0036248001, y: 0.0064999997, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5406201101319117231}
