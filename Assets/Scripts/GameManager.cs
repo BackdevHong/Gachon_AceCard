@@ -1,5 +1,7 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +9,9 @@ public class GameManager : MonoBehaviour
     public GameObject player1Preparation; // Player1의 Preparation 오브젝트
     public GameObject player2Participation; // Player2의 Participation 오브젝트
     public GameObject player2Preparation; // Player2의 Preparation 오브젝트
+
+    public TMP_Text turnSeconds;
+    public Button turnEndButton;
 
     private CharacterCard selectedPreparationCard; // 선택된 Preparation 카드
     public bool isSwitching = false; // 교체 모드 활성화 여부
@@ -17,12 +22,20 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // SoundManager.Instance.PlayBGM("BGM");
+            UpdateTurnUI();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+    
+    private void Start()
+    {
+        turnEndButton.onClick.AddListener(() =>
+        {
+            Client.Instance.SendTurnEndRequest();
+        });
     }
 
     public void Connect()
@@ -37,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     public void StartSwitch()
     {
+        if(Client.Instance.GetCurrentTurnPlayerID() != Client.Instance.GetPlayerID()) return;
         isSwitching = true; // 교체 모드 활성화
     }
 
@@ -103,7 +117,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void NormalAttack()
-    {
+    {   
+        Debug.Log($"Current Turn: {Client.Instance.GetCurrentTurnPlayerID()}, Local Player: {Client.Instance.GetPlayerID()}");
+        if (Client.Instance.GetCurrentTurnPlayerID() != Client.Instance.GetPlayerID())
+        {
+            Debug.Log("내 턴이 아닙니다. 스킬을 사용할 수 없습니다.");
+            return;
+        }
         int playerId = Client.Instance.GetPlayerID();
         int opponentId = playerId == 1 ? 2 : 1; // 상대 플레이어의 ID 계산
         GameObject myParticipation = GameObject.FindGameObjectsWithTag("Player" + playerId)[0]
@@ -130,6 +150,11 @@ public class GameManager : MonoBehaviour
     
     public void SkillAttack()
     {
+        if (Client.Instance.GetCurrentTurnPlayerID() != Client.Instance.GetPlayerID())
+        {
+            Debug.Log("내 턴이 아닙니다. 스킬을 사용할 수 없습니다.");
+            return;
+        }
         // 현재 턴에 따라 자신의 Participation과 상대방의 Participation 결정
         int playerId = Client.Instance.GetPlayerID();
         int opponentId = playerId == 1 ? 2 : 1; // 상대 플레이어의 ID 계산
@@ -161,5 +186,13 @@ public class GameManager : MonoBehaviour
         var targetCard = opponentCards[0];
         Debug.Log($"Player{Client.Instance.GetPlayerID()}이(가) {targetCard.name}에게 스킬 공격을 했습니다.");
         Client.Instance.SendSkillEvent(playerId, "One");
+    }
+    
+    public void UpdateTurnUI()
+    {
+        // UI 업데이트
+        bool isMyTurn = Client.Instance.GetPlayerID() == Client.Instance.GetCurrentTurnPlayerID();
+        turnEndButton.interactable = isMyTurn;
+        Debug.Log(isMyTurn ? "내 턴입니다." : "상대방의 턴입니다.");
     }
 }
