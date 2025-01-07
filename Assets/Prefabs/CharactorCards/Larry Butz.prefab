@@ -106,11 +106,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 20
   attack: 1
-  skillCost: 3
   skillCard: {fileID: 59661165054374747}
   uniqueID: 
   hpText: {fileID: 8624331337142732307}
   attackText: {fileID: 4678929860310190991}
+  popup: {fileID: 0}
 --- !u!114 &59661165054374747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onSelectionNeed: 0
+  skillType: 0
+  skillCost: 0
   myCharacter: {fileID: 0}
   targetCharacter: {fileID: 0}
 --- !u!61 &-1365755655859576436
@@ -559,7 +561,7 @@ RectTransform:
   m_GameObject: {fileID: 6469897977620035341}
   m_LocalRotation: {x: 0, y: 0.004363274, z: 0, w: 0.9999905}
   m_LocalPosition: {x: 0, y: 0, z: 0.0101}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.0036248001, y: 0.0064999997, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5406201101319117231}
