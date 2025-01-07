@@ -1,9 +1,13 @@
+using Skills;
 using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
     public bool onSelectionNeed = false; // 카드 선택 여부 플래그
     protected CharacterCard SelectedTarget = null; // 선택된 대상 카드
+    
+    public SkillType skillType;
+    public int skillCost = 0;
 
     public virtual void OnSkill()
     {

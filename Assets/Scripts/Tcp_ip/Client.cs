@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using Skills;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,7 +15,8 @@ public class Client : MonoBehaviour
     private bool _connected;
 
     private Dictionary<int, Action<byte[]>> _connectedActions = new Dictionary<int, Action<byte[]>>();
-
+    private Dictionary<int, int> _playerCosts = new Dictionary<int, int>();
+    
     private bool _shouldLoadScene = false; // 씬 로딩 플래그
     
     private int _playerID; // 서버에서 받은 고유 ID
@@ -30,6 +32,7 @@ public class Client : MonoBehaviour
             SetupSkillEventHandler();
             SetupSwitchEventHandler();
             SetupTurnEventHandler();
+            SetupCostUpdateHandler();
         }
         else
         {
@@ -124,7 +127,8 @@ public class Client : MonoBehaviour
         Utilities.AttackEvent attackEvent = new Utilities.AttackEvent
         {
             attackPlayerID = attackerPid,
-            damage = damage
+            damage = damage,
+            cost = 1
         };
 
         string json = JsonUtility.ToJson(attackEvent);
@@ -137,12 +141,13 @@ public class Client : MonoBehaviour
         _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
     
-    public void SendSkillEvent(int attackerPid, string type)
+    public void SendSkillEvent(int attackerPid, SkillType type, int cost)
     {
         Utilities.SkillEvent attackEvent = new Utilities.SkillEvent
         {
             attackPlayerID = attackerPid,
-            type = type
+            type = type.ToString(),
+            cost = cost
         };
 
         string json = JsonUtility.ToJson(attackEvent);
@@ -289,6 +294,24 @@ public class Client : MonoBehaviour
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
                 GameManager.Instance.ApplySwitch(switchEvent);
+            });
+        });
+    }
+    
+    private void SetupCostUpdateHandler()
+    {
+        RegisterAction((int)PacketType.CostUpdate, data =>
+        {
+            Packet packet = new Packet(data);
+            int type = packet.ReadInt();
+            string costData = packet.ReadString();
+
+            _playerCosts = JsonUtility.FromJson<Dictionary<int, int>>(costData);
+            Debug.Log("Received cost update from server.");
+
+            MainThreadDispatcher.ExecuteOnMainThread(() =>
+            {
+                GameManager.Instance.UpdateCostUI(_playerCosts); // UI 업데이트
             });
         });
     }

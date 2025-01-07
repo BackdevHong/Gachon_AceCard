@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject player1Participation; // Player1의 Participation 오브젝트
     public GameObject player1Preparation; // Player1의 Preparation 오브젝트
-    public GameObject player2Participation; // Player2의 Participation 오브젝트
     public GameObject player2Preparation; // Player2의 Preparation 오브젝트
 
-    public TMP_Text turnSeconds;
+    public TMP_Text player1cost;
+    public TMP_Text player2cost;
     public Button turnEndButton;
 
     private CharacterCard selectedPreparationCard; // 선택된 Preparation 카드
@@ -138,6 +138,13 @@ public class GameManager : MonoBehaviour
         if (opponentCards.Length > 0)
         {
             int damage = 1;
+            if (myCards[0].skillCard is MilesEdgeworth)
+            {
+                if (myCards[0].hp < 3)
+                {
+                    damage += 1;
+                }
+            }
             var targetCard = opponentCards[0];
             Debug.Log($"Player{playerId}이(가) {targetCard.name}에게 일반 공격을 했습니다.");
             Client.Instance.SendAttackEvent(playerId, damage);
@@ -183,9 +190,37 @@ public class GameManager : MonoBehaviour
             return;
         }
         
+        int myCost = Client.Instance.GetPlayerID() == 1 ? int.Parse(player1cost.text) : int.Parse(player2cost.text);
+        
+        if (activeCard.skillCard.skillCost > myCost)
+        {
+            Debug.Log("코스트가 부족합니다.");
+            return;
+        }
+        
         var targetCard = opponentCards[0];
         Debug.Log($"Player{Client.Instance.GetPlayerID()}이(가) {targetCard.name}에게 스킬 공격을 했습니다.");
-        Client.Instance.SendSkillEvent(playerId, "One");
+        Client.Instance.SendSkillEvent(playerId, activeCard.skillCard.skillType, activeCard.skillCard.skillCost);
+    }
+
+    public List<CharacterCard> GetAllCards(int playerID)
+    {
+        List<CharacterCard> allCards = new List<CharacterCard>();
+
+        // 플레이어의 Preparation과 Participation 오브젝트 가져오기
+        GameObject playerObject = GameObject.FindGameObjectsWithTag("Player" + playerID)[0];
+        GameObject preparation = playerObject.transform.Find("Preparation").gameObject;
+        GameObject participation = playerObject.transform.Find("Participation").gameObject;
+
+        // Preparation에서 모든 CharacterCard 수집
+        var preparationCards = preparation.GetComponentsInChildren<CharacterCard>();
+        allCards.AddRange(preparationCards);
+
+        // Participation에서 모든 CharacterCard 수집
+        var participationCards = participation.GetComponentsInChildren<CharacterCard>();
+        allCards.AddRange(participationCards);
+
+        return allCards;
     }
     
     public void UpdateTurnUI()
@@ -194,5 +229,11 @@ public class GameManager : MonoBehaviour
         bool isMyTurn = Client.Instance.GetPlayerID() == Client.Instance.GetCurrentTurnPlayerID();
         turnEndButton.interactable = isMyTurn;
         Debug.Log(isMyTurn ? "내 턴입니다." : "상대방의 턴입니다.");
+    }
+
+    public void UpdateCostUI(Dictionary<int, int> dictionary)
+    {
+        player1cost.text = dictionary[1].ToString();
+        player2cost.text = dictionary[2].ToString();
     }
 }
