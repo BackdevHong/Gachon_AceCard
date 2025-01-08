@@ -15,8 +15,15 @@ public class GameUIManager : MonoBehaviour
     public GameObject player2Preparation;
 
     public Button endTurnButton;
+    public Button changeCardButton;
     
     public static GameUIManager Instance;
+    
+    public TMP_Text turnTimerText; // 남은 시간 표시용 Text
+    public int turnTimeLimit = 30; // 턴 시간 (초), 기본값 30초
+    private float remainingTime; // 현재 턴의 남은 시간
+    private bool isTimerRunning = false;
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,8 +40,31 @@ public class GameUIManager : MonoBehaviour
         {
             Client.Instance.SendTurnEndRequest();
         });
+        
+        changeCardButton.onClick.AddListener(() =>
+        {
+            _gameManager.StartSwitch();
+        });
         _gameManager.UpdateCostUI();
-        _gameManager.UpdateTurnUI();
+        StartTurnTimer(turnTimeLimit);
+    }
+    
+    private void Update()
+    {
+        if (isTimerRunning)
+        {
+            remainingTime -= Time.deltaTime;
+
+            // 남은 시간 UI 업데이트
+            int seconds = Mathf.CeilToInt(remainingTime);
+            turnTimerText.text = $"{seconds}초";
+
+            // 시간이 0이 되면 자동 턴 종료
+            if (remainingTime <= 0)
+            {
+                EndTurnAutomatically();
+            }
+        }
     }
 
     private void Awake()
@@ -49,6 +79,26 @@ public class GameUIManager : MonoBehaviour
         }
         
         SetupPlayerPositions();
+    }
+    
+    public void StartTurnTimer(int seconds)
+    {
+        remainingTime = seconds;
+        isTimerRunning = true;
+        _gameManager.UpdateTurnUI();
+    }
+    
+    public void StopTurnTimer()
+    {
+        isTimerRunning = false;
+    }
+    
+    private void EndTurnAutomatically()
+    {
+        isTimerRunning = false;
+
+        Debug.Log("시간 초과! 턴을 자동으로 종료합니다.");
+        Client.Instance.SendTurnEndRequest(); // 자동으로 턴 종료 요청
     }
     
     public void SetupPlayerPositions()
@@ -79,9 +129,6 @@ public class GameUIManager : MonoBehaviour
             
             player.transform.Find("Participation").transform.position = new Vector3(-2.1319f, -2f, 0); // 자신의 Preparation (아래쪽)
             opponent.transform.Find("Participation").transform.position = new Vector3(-2.1319f, 1.4f, 0); // 자신의 Preparation (아래쪽)
-            // 위치 설정
-            // player.transform.position = new Vector3(-1.92f, -4f, 0); // 자신의 카드 (아래쪽)
-            // opponent.transform.position = new Vector3(-1.92f, 4f, 0); // 상대방의 카드 (위쪽)
         }
 
         Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");

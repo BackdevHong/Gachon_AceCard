@@ -306,6 +306,10 @@ public class GameManager : MonoBehaviour
     
     public void AddCost(Utilities.CostAddEvent costAddEvent)
     {
+        if (Client.Instance.PlayerCosts[costAddEvent.playerID] > 8)
+        {
+            return;
+        }
         Client.Instance.PlayerCosts[costAddEvent.playerID] += costAddEvent.addCost;
         UpdateCostUI();
     }
