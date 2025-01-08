@@ -14,8 +14,6 @@ public class CharacterCard : MonoBehaviour
     public string uniqueID; // 고유 ID
     public TMP_Text hpText; // 체력 표시 TextMeshPro
     public TMP_Text attackText; // 공격력 표시 TextMeshPro
-    public GameObject popup; // 캐릭터 오브젝트 안에 있는 팝업
-    private static GameObject activePopup; // 현재 활성화된 팝업 (전역적으로 관리)
 
 
     private void Awake()
@@ -99,17 +97,6 @@ public class CharacterCard : MonoBehaviour
         else
         {
             Debug.Log($"{name} 카드가 클릭되었습니다.");
-        }
-    }
-    public void ClosePopup()
-    {
-        if (popup != null)
-        {
-            popup.SetActive(false);
-            if (activePopup == popup)
-            {
-                activePopup = null;
-            }
         }
     }
 }

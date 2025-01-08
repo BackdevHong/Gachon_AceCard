@@ -111,7 +111,6 @@ MonoBehaviour:
   uniqueID: 
   hpText: {fileID: 8624331337142732307}
   attackText: {fileID: 4678929860310190991}
-  popup: {fileID: 0}
 --- !u!114 &59661165054374747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +200,7 @@ RectTransform:
   m_GameObject: {fileID: 1810251382112407132}
   m_LocalRotation: {x: -0, y: 0.004363274, z: -0, w: 0.9999905}
   m_LocalPosition: {x: 0, y: 0, z: 0.018907104}
-  m_LocalScale: {x: 0.003623885, y: 0.0045496807, z: 0.009996794}
+  m_LocalScale: {x: 0.009997, y: 0.006999, z: 0.009996794}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 104499248617677604}
@@ -424,7 +423,7 @@ RectTransform:
   m_GameObject: {fileID: 4103766372349973098}
   m_LocalRotation: {x: -0, y: 0.004363274, z: -0, w: 0.9999905}
   m_LocalPosition: {x: 0, y: 0, z: 0.018497864}
-  m_LocalScale: {x: 0.003623885, y: 0.0045496807, z: 0.009996794}
+  m_LocalScale: {x: 0.009997, y: 0.006999, z: 0.009996794}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 104499248617677604}
