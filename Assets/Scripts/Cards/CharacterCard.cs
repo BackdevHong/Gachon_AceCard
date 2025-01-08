@@ -59,8 +59,8 @@ public class CharacterCard : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("test1");
-        if (Input.GetMouseButtonDown(1)) // 우클릭
+        /*Debug.Log("test1");
+        //if (Input.GetMouseButtonDown(1)) // 우클릭
         {
             //Debug.Log("우클릭 잘 눌림");
 
@@ -78,9 +78,9 @@ public class CharacterCard : MonoBehaviour
                 Debug.Log("우클릭 잘 눌림");
 
             }
-        }
+        }*/
 
-        else if (Input.GetMouseButtonDown(0)) // 좌클릭
+        if (Input.GetMouseButtonDown(0)) // 좌클릭
         {
             if (ObjectSelector.Instance != null)
             {
