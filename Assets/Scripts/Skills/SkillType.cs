@@ -6,4 +6,13 @@
         All,
         Me,
     }
+
+    public enum ActionType
+    {
+        AddCost,
+        ReduceCost,
+        FreeSwitch,
+        ReduceAttackCost,
+        FreeSkillCost
+    }
 }

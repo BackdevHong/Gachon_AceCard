@@ -21,7 +21,7 @@ public class MayaFey : Skill
         
         myCharacter.Heal(4);
         
-        List<CharacterCard> allCards = GameManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
+        List<CharacterCard> allCards = GameUIManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
         foreach (var card in allCards)
         {
             if (card == myCharacter) continue;

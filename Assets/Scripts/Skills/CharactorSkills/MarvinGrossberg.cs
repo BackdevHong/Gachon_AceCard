@@ -20,7 +20,7 @@ public class MarvinGrossberg : Skill
         }
         
         SelectedTarget.TakeDamage(1); // 대상에게 데미지
-        List<CharacterCard> myCharacterList = GameManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
+        List<CharacterCard> myCharacterList = GameUIManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
         foreach (var card in myCharacterList)
         {
             card.Heal(3); // 아군 모두에게 힐

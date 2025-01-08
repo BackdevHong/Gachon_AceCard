@@ -23,7 +23,7 @@ public class DickGumshoe : Skill
 
         myCharacter.TakeDamage(1); // 스킬 비용
         int enemyPid = Client.Instance.GetPlayerID() == 1 ? 2 : 1; 
-        List<CharacterCard> allCards = GameManager.Instance.GetAllCards(enemyPid);
+        List<CharacterCard> allCards = GameUIManager.Instance.GetAllCards(enemyPid);
         foreach (var card in allCards)
         {
             card.TakeDamage(2); // 적군 모두에게 데미지

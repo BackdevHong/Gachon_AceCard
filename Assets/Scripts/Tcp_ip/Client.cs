@@ -369,18 +369,6 @@ public class Client : MonoBehaviour
             });
         });
     }
-    
-    private void SetupPlayerCountHandler()
-    {
-        RegisterAction((int)PacketType.PlayerCount, data =>
-        {
-            MainThreadDispatcher.ExecuteOnMainThread(() =>
-            {
-                GameManager.Instance.SetupPlayerPositions();
-                GameManager.Instance.AdjustCardRotation();
-            });
-        });
-    }
 
     private void SetupCostAddEventHandler()
     {

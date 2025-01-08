@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Skills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,14 +20,18 @@ public class GameManager : MonoBehaviour
 
     private int _turnC = -1;
     private int _Round = 0;
-    
-    
+
+    // 행동카드 관련 변수
+    private bool _freeSwitch = false;
+    private bool _reduceCost = false;
+    private bool _freeSkillCost = false;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            UpdateTurnUI();
+            // UpdateTurnUI();
             // Client.Instance.SendReadyPacket();
 
         }
@@ -36,62 +41,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    private void Start()
-    {
-        turnEndButton.onClick.AddListener(() =>
-        {
-            Client.Instance.SendTurnEndRequest();
-        });
-        UpdateCostUI();
-        SetupPlayerPositions();
-        AdjustCardRotation();
-    }
     
-    public void SetupPlayerPositions()
-    {
-        int playerId = Client.Instance.GetPlayerID(); // 현재 플레이어 ID
-        int opponentId = playerId == 1 ? 2 : 1; // 상대방 ID
-        
-        if (Client.Instance.ready) return;
-        
-        if (opponentId == 2)
-        {
-            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
-            GameObject player = GameObject.FindWithTag($"Player{playerId}");
-            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
-
-            // 위치 설정
-            player.transform.position = new Vector3(-1.92f, 0f, 0); // 자신의 카드 (아래쪽)
-            opponent.transform.position = new Vector3(-1.92f, 0f, 0); // 상대방의 카드 (위쪽)
-        }
-        else
-        {
-            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
-            GameObject player = GameObject.FindWithTag($"Player{playerId}");
-            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
-
-            // 위치 설정
-            player.transform.position = new Vector3(-1.92f, -6.2f, 0); // 자신의 카드 (아래쪽)
-            opponent.transform.position = new Vector3(-1.92f, 6.2f, 0); // 상대방의 카드 (위쪽)
-        }
-
-        Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");
-    }
-    
-    public void AdjustCardRotation()
-    {
-        if (Client.Instance.ready) return;
-
-        int playerId = Client.Instance.GetPlayerID();
-        int opponentId = playerId == 1 ? 2 : 1;
-        
-        foreach (var characterCard in GetAllCards(opponentId))
-        {
-            characterCard.transform.rotation = Quaternion.Euler(0, 0, 180);
-        }
-        
-        Client.Instance.ready = true;
-    }
 
     public void Connect()
     {
@@ -168,6 +118,11 @@ public class GameManager : MonoBehaviour
             participationCards[0].transform.position = preparationPosition;
 
             Debug.Log($"Player {playerId} 카드 교체 완료: {participationCards[0].name} <-> {targetCard.name}");
+            if (_freeSwitch)
+            {
+                return;
+            }
+
             Client.Instance.SendUpdateCostEvent(1);
         }
     }
@@ -216,8 +171,13 @@ public class GameManager : MonoBehaviour
             }
             var targetCard = opponentCards[0];
             Debug.Log($"Player{playerId}이(가) {targetCard.name}에게 일반 공격을 했습니다.");
-            Client.Instance.SendUpdateCostEvent(1);
             Client.Instance.SendAttackEvent(playerId, damage);
+            if (_reduceCost)
+            {
+                _reduceCost = false;
+                return;
+            }
+            Client.Instance.SendUpdateCostEvent(1);
         }
         else
         {
@@ -278,27 +238,36 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Player{Client.Instance.GetPlayerID()}이(가) {targetCard.name}에게 스킬 공격을 했습니다.");
         Client.Instance.SendSkillEvent(playerId, activeCard.skillCard.skillType, activeCard.skillCard.skillCost);
         Debug.Log(activeCard.skillCard.skillCost);
+        if (_freeSkillCost)
+        {
+            _freeSkillCost = false;
+            return;
+        }
         Client.Instance.SendUpdateCostEvent(activeCard.skillCard.skillCost);
     }
 
-    public List<CharacterCard> GetAllCards(int playerID)
+    public void OnActionUse(ActionType type, ActionCard card)
     {
-        List<CharacterCard> allCards = new List<CharacterCard>();
-
-        // 플레이어의 Preparation과 Participation 오브젝트 가져오기
-        GameObject playerObject = GameObject.FindGameObjectsWithTag("Player" + playerID)[0];
-        GameObject preparation = playerObject.transform.Find("Preparation").gameObject;
-        GameObject participation = playerObject.transform.Find("Participation").gameObject;
-
-        // Preparation에서 모든 CharacterCard 수집
-        var preparationCards = preparation.GetComponentsInChildren<CharacterCard>();
-        allCards.AddRange(preparationCards);
-
-        // Participation에서 모든 CharacterCard 수집
-        var participationCards = participation.GetComponentsInChildren<CharacterCard>();
-        allCards.AddRange(participationCards);
-
-        return allCards;
+        switch (type)
+        {
+            // case ActionType.AddCost:
+            //     Destroy(card);
+            //     Client.Instance.SendUpdateCostEvent(1);
+            //     Client.Instance.SendAddCostEvent(Client.Instance.GetPlayerID(), 1);
+            //     break;
+            case ActionType.FreeSwitch:
+                _freeSwitch = true;
+                Destroy(card);
+                break;
+            case ActionType.ReduceCost:
+                _reduceCost = true;
+                Destroy(card);
+                break;
+            case ActionType.FreeSkillCost:
+                _freeSkillCost = true;
+                Destroy(card);
+                break;
+        }
     }
     
     public void UpdateTurnUI()
@@ -306,6 +275,11 @@ public class GameManager : MonoBehaviour
         // UI 업데이트
         bool isMyTurn = Client.Instance.GetPlayerID() == Client.Instance.GetCurrentTurnPlayerID();
         turnEndButton.interactable = isMyTurn;
+        if (_freeSwitch || _reduceCost)
+        {
+            _freeSwitch = false;
+            _reduceCost = false;
+        }
         _turnC += 1;
         if (_turnC >= 2)
         {
