@@ -18,8 +18,8 @@ public class MiaFey : Skill
         int myPid = Client.Instance.GetPlayerID();
         int enemyPid = myPid == 1 ? 2 : 1;
         
-        List<CharacterCard> myCards = GameManager.Instance.GetAllCards(myPid);
-        List<CharacterCard> enemyCards = GameManager.Instance.GetAllCards(enemyPid);
+        List<CharacterCard> myCards = GameUIManager.Instance.GetAllCards(myPid);
+        List<CharacterCard> enemyCards = GameUIManager.Instance.GetAllCards(enemyPid);
         
         foreach (var card in myCards)
         {
