@@ -13,7 +13,9 @@ public enum PacketType
     Turn,
     CostUpdate,
     CostAdd,
-    PlayerCount
+    PlayerCount,
+    TurnTimeRequest,
+    TurnTimeSync
 }
 
 public class Packet

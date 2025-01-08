@@ -240,8 +240,16 @@ public class Client : MonoBehaviour
         // 서버로 데이터 전송
         _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
-
-
+    
+    
+    public void RequestTurnTime()
+    {
+        Packet packet = new Packet();
+        packet.Write((int)PacketType.TurnTimeRequest); // 요청 타입
+        packet.Write(Client.Instance.GetPlayerID()); // 요청한 플레이어 ID
+        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
+    }
+    
     // 패킷 등록
     private void SetupWelcomePacket()
     {
@@ -252,17 +260,6 @@ public class Client : MonoBehaviour
             _playerID = packet.ReadInt(); // 서버로부터 PlayerID 읽기
             Debug.Log($"서버로부터 받은 Player ID: {_playerID}");
         });
-    }
-    
-    public void SendReadyPacket()
-    {
-        if (ready) return; // 이미 준비 상태라면 패킷 전송하지 않음
-
-        Packet packet = new Packet();
-        packet.Write((int)PacketType.PlayerCount);
-        packet.Write(Client.Instance.GetPlayerID()); // 플레이어 ID 포함
-        Debug.Log($"클라이언트에서 서버로 준비 완료 패킷 전송: PlayerID {Client.Instance.GetPlayerID()}");
-        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
     
     private void SetupTurnEventHandler()
