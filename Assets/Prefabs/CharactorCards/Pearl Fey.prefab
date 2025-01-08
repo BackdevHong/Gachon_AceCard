@@ -111,7 +111,6 @@ MonoBehaviour:
   uniqueID: 
   hpText: {fileID: 7781537803418657513}
   attackText: {fileID: 1123101567068743206}
-  popup: {fileID: 0}
 --- !u!114 &8218341660537539671
 MonoBehaviour:
   m_ObjectHideFlags: 0
