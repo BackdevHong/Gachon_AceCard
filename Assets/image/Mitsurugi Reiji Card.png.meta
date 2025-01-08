@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Mitsurugi Reiji Card_0: 9187802372201292812
+      Mitsurugi Reiji Card_1: -3755550697670572674
+      Mitsurugi Reiji Card_2: 2722577607970705236
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Naruto_Ryuichi_0: 3483982700156431315
+      Naruto_Ryuichi_1: -3190551335624018783
+      Naruto_Ryuichi_2: 2785404370259360333
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

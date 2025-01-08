@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Karuma May Card_0: 5828084076794266641
+      Karuma May Card_1: -2783119532232102018
+      Karuma May Card_2: -144064198010814821
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

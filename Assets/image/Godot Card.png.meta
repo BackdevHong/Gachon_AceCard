@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Godot Card_0: -4909155245011048087
+      Godot Card_1: 8963340204550507510
+      Godot Card_2: 4893961788669411654
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

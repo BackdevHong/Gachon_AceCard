@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ayasato Chihiro card_0: -6098546208351693786
+      Ayasato Chihiro card_1: -1092665619997218717
+      Ayasato Chihiro card_2: 5077416193717510807
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

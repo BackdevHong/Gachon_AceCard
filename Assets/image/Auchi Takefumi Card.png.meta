@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Auchi Takefumi Card_0: -4540635735971076291
+      Auchi Takefumi Card_1: -4830735772849768850
+      Auchi Takefumi Card_2: 2466336906882208690
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
