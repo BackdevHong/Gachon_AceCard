@@ -2,16 +2,8 @@ using UnityEngine;
 
 public class RightClickPopupHandler : MonoBehaviour
 {
-    public GameObject popup; // 팝업 오브젝트
-    private static GameObject activePopup;
-
-    private void Start()
-    {
-        if (popup != null)
-        {
-            popup.SetActive(false); // 팝업 초기화 시 비활성화
-        }
-    }
+    public GameObject popupPrefab; // 카드별 팝업 프리팹
+    private GameObject popupInstance;
 
     private void Update()
     {
@@ -22,36 +14,68 @@ public class RightClickPopupHandler : MonoBehaviour
 
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
-                Debug.Log("우클릭 감지 (2D)");
-                HandleRightClick();
+                Debug.Log($"카드 {gameObject.name} 우클릭 감지");
+                ShowPopup();
             }
         }
     }
 
-    private void HandleRightClick()
+    private void ShowPopup()
     {
-        if (activePopup != null && activePopup != popup)
+        // 기존 팝업 제거
+        if (popupInstance != null)
         {
-            activePopup.SetActive(false);
+            Destroy(popupInstance);
         }
 
-        if (popup != null)
+        // 팝업 프리팹이 설정되지 않았다면 오류 출력
+        if (popupPrefab == null)
         {
-            popup.SetActive(true);
-            activePopup = popup;
-            Debug.Log("우클릭으로 팝업이 활성화되었습니다.");
+            Debug.LogError($"팝업 프리팹이 {gameObject.name} 카드에 설정되지 않았습니다.");
+            return;
         }
+
+        // 팝업 생성
+        popupInstance = Instantiate(popupPrefab, transform);
+
+        // 팝업의 Canvas 설정을 현재 씬의 Canvas와 일치시킴
+        Canvas popupCanvas = popupInstance.GetComponent<Canvas>();
+        Canvas sceneCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        if (popupCanvas != null && sceneCanvas != null)
+        {
+            popupCanvas.renderMode = sceneCanvas.renderMode;
+            popupCanvas.worldCamera = sceneCanvas.worldCamera;
+            popupCanvas.sortingLayerID = sceneCanvas.sortingLayerID;
+            popupCanvas.sortingOrder = sceneCanvas.sortingOrder;
+        }
+
+        // 팝업 위치 설정 (UI 좌표로 변환)
+        RectTransform popupRect = popupInstance.GetComponent<RectTransform>();
+        if (popupRect != null)
+        {
+            Vector2 anchoredPosition;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                sceneCanvas.GetComponent<RectTransform>(),
+                Input.mousePosition,
+                sceneCanvas.GetComponent<Canvas>().worldCamera,
+                out anchoredPosition
+            );
+            popupRect.anchoredPosition = anchoredPosition;
+        }
+
+        // 팝업 활성화
+        popupInstance.SetActive(true);
+        Debug.Log($"카드 {gameObject.name}의 팝업이 생성되었습니다.");
     }
+
 
     public void ClosePopup()
     {
-        if (popup != null)
+        if (popupInstance != null)
         {
-            popup.SetActive(false);
-            if (activePopup == popup)
-            {
-                activePopup = null;
-            }
+            Destroy(popupInstance);
+            popupInstance = null;
+            Debug.Log($"카드 {gameObject.name}의 팝업이 닫혔습니다.");
         }
     }
 }

@@ -29,7 +29,6 @@ public class CharacterCard : MonoBehaviour
     private void Start()
     {
         UpdateUI();
-        popup.SetActive(false); // 팝업을 초기에는 비활성화
     }
 
 
