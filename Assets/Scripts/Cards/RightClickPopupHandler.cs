@@ -2,80 +2,63 @@ using UnityEngine;
 
 public class RightClickPopupHandler : MonoBehaviour
 {
-    public GameObject popupPrefab; // 카드별 팝업 프리팹
-    private GameObject popupInstance;
+    public GameObject popup; // 카드 하위에 있는 팝업 오브젝트
+    private static GameObject activePopup; // 현재 활성화된 팝업 (전역 관리)
+
+    private void Start()
+    {
+        if (popup != null)
+        {
+            popup.SetActive(false); // 팝업 초기화 시 비활성화
+        }
+    }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(1)) // 우클릭
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector3.forward, Mathf.Infinity);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
-                Debug.Log($"카드 {gameObject.name} 우클릭 감지");
-                ShowPopup();
+                // 카드 위에서 우클릭한 경우
+                Debug.Log($"{gameObject.name} 카드가 우클릭되었습니다.");
+                HandleRightClick();
+            }
+            else
+            {
+                // 빈 공간 또는 다른 UI를 우클릭한 경우
+                CloseIfActive();
             }
         }
     }
 
-    private void ShowPopup()
+    private void HandleRightClick()
     {
-        // 기존 팝업 제거
-        if (popupInstance != null)
+        // 다른 팝업이 활성화되어 있다면 비활성화
+        if (activePopup != null && activePopup != popup)
         {
-            Destroy(popupInstance);
+            activePopup.SetActive(false);
         }
 
-        // 팝업 프리팹이 설정되지 않았다면 오류 출력
-        if (popupPrefab == null)
+        // 현재 카드의 팝업 활성화
+        if (popup != null)
         {
-            Debug.LogError($"팝업 프리팹이 {gameObject.name} 카드에 설정되지 않았습니다.");
-            return;
+            popup.SetActive(true);
+            activePopup = popup; // 활성화된 팝업을 전역 변수에 저장
+            Debug.Log($"{gameObject.name}의 팝업이 활성화되었습니다.");
         }
-
-        // 팝업 생성
-        popupInstance = Instantiate(popupPrefab, transform);
-
-        // 팝업의 Canvas 설정을 현재 씬의 Canvas와 일치시킴
-        Canvas popupCanvas = popupInstance.GetComponent<Canvas>();
-        Canvas sceneCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        if (popupCanvas != null && sceneCanvas != null)
-        {
-            popupCanvas.renderMode = sceneCanvas.renderMode;
-            popupCanvas.worldCamera = sceneCanvas.worldCamera;
-            popupCanvas.sortingLayerID = sceneCanvas.sortingLayerID;
-            popupCanvas.sortingOrder = sceneCanvas.sortingOrder;
-        }
-
-        // 팝업 위치 설정 (UI 좌표로 변환)
-        RectTransform popupRect = popupInstance.GetComponent<RectTransform>();
-        if (popupRect != null)
-        {
-            Vector2 anchoredPosition;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                sceneCanvas.GetComponent<RectTransform>(),
-                Input.mousePosition,
-                sceneCanvas.GetComponent<Canvas>().worldCamera,
-                out anchoredPosition
-            );
-            popupRect.anchoredPosition = anchoredPosition;
-        }
-
-        // 팝업 활성화
-        popupInstance.SetActive(true);
-        Debug.Log($"카드 {gameObject.name}의 팝업이 생성되었습니다.");
     }
 
-
-    public void ClosePopup()
+    public void CloseIfActive()
     {
-        if (popupInstance != null)
+        // 현재 활성화된 팝업만 닫기
+        if (activePopup == popup)
         {
-            Destroy(popupInstance);
-            popupInstance = null;
-            Debug.Log($"카드 {gameObject.name}의 팝업이 닫혔습니다.");
+            popup.SetActive(false);
+            activePopup = null; // 전역 변수 초기화
+            Debug.Log("활성화된 팝업이 닫혔습니다.");
         }
     }
 }
