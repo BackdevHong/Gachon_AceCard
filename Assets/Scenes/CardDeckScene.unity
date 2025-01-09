@@ -691,6 +691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 322803413}
   - component: {fileID: 322803412}
+  - component: {fileID: 322803414}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -725,6 +726,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &322803414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322803411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4892e93d60410479f6003d9a4ae5c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectableObjects:
+  - {fileID: 1082002547}
+  - {fileID: 224805671}
+  - {fileID: 1456616369}
+  - {fileID: 1723579599}
+  - {fileID: 76669663}
+  - {fileID: 1580786369}
+  - {fileID: 667882716}
+  - {fileID: 484843799}
+  - {fileID: 893690649}
+  - {fileID: 1308886542}
+  - {fileID: 1812609869}
+  - {fileID: 181431381}
 --- !u!1001 &330007979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1087,7 +1113,6 @@ GameObject:
   m_Component:
   - component: {fileID: 494633609}
   - component: {fileID: 494633610}
-  - component: {fileID: 494633611}
   m_Layer: 5
   m_Name: layout1
   m_TagString: Untagged
@@ -1123,7 +1148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 28.237492, y: 11.77199}
+  m_AnchoredPosition: {x: -46, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494633610
@@ -1150,31 +1175,6 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &494633611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 494633608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4892e93d60410479f6003d9a4ae5c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectableObjects:
-  - {fileID: 1082002547}
-  - {fileID: 224805671}
-  - {fileID: 1456616369}
-  - {fileID: 1723579599}
-  - {fileID: 76669663}
-  - {fileID: 1580786369}
-  - {fileID: 667882716}
-  - {fileID: 484843799}
-  - {fileID: 893690649}
-  - {fileID: 1308886542}
-  - {fileID: 1812609869}
-  - {fileID: 181431381}
 --- !u!1 &509445227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2143,7 +2143,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 494633611}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectSelector, Assembly-CSharp
         m_MethodName: ConfirmSelection
         m_Mode: 1
