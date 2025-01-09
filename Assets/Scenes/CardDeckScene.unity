@@ -3231,7 +3231,8 @@ PrefabInstance:
       value: Pheonix Wright
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2282454760150737503, guid: 914ec4f4ea37e4a408f0d23f4810b299, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1293424760666407573, guid: 914ec4f4ea37e4a408f0d23f4810b299, type: 3}
@@ -4396,7 +4397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: b733a6121df57eb47850efc226e1a552, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -241
+      value: -228.6
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: b733a6121df57eb47850efc226e1a552, type: 3}
       propertyPath: m_LocalPosition.z
