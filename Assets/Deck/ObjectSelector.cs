@@ -60,13 +60,15 @@ public class ObjectSelector : MonoBehaviour
 
             foreach (var selectedObject in selectedObjects)
             {
-                if (selectedObject == null)
+                var prefabRef = selectedObject.GetComponent<PrefabReference>();
+                if (prefabRef != null && prefabRef.originalPrefab != null)
                 {
-                    Debug.LogError("선택된 오브젝트가 null입니다.");
-                    continue;
+                    selectedPrefabs.Add(prefabRef.originalPrefab);
                 }
-
-                selectedPrefabs.Add(selectedObject); // 프리팹을 직접 참조
+                else
+                {
+                    Debug.LogError($"{selectedObject.name}에 PrefabReference가 없거나 원본 프리팹이 null입니다.");
+                }
             }
 
             if (selectedPrefabs.Count == 3)
@@ -80,7 +82,7 @@ public class ObjectSelector : MonoBehaviour
             Debug.Log("3개의 오브젝트를 모두 선택해야 합니다.");
         }
     }
-
+    
     public List<GameObject> GetSelectedObjects()
     {
         return new List<GameObject>(selectedObjects);

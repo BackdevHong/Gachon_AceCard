@@ -49,6 +49,7 @@ public class GameUIManager : MonoBehaviour
         });
         _gameManager.UpdateCostUI();
         StartTurnTimer(turnTimeLimit);
+        SetupPlayerPositions();
     }
     
     private void Update()
@@ -78,9 +79,7 @@ public class GameUIManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-        
-        SetupPlayerPositions();
+        } 
     }
     
     public void StartTurnTimer(int seconds)
@@ -117,8 +116,8 @@ public class GameUIManager : MonoBehaviour
             GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
 
             // 위치 설정
-            player.transform.position = new Vector3(-2.1319f, 0f, 0); // 자신의 카드 (아래쪽)
-            opponent.transform.position = new Vector3(-2.1319f, 0f, 0); // 상대방의 카드 (위쪽)
+            player.transform.position = new Vector3(-2.1319f, -0.2527f, 0); // 자신의 카드 (아래쪽)
+            opponent.transform.position = new Vector3(-2.1319f, -0.2527f, 0); // 상대방의 카드 (위쪽)
         }
         else
         {

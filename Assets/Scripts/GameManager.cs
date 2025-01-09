@@ -54,35 +54,58 @@ public class GameManager : MonoBehaviour
     
     public void AssignRandomCards()
     {
-        if (SelectedCards.Count < 3)
+        if (SelectedCards == null || SelectedCards.Count < 3)
         {
-            Debug.LogError("선택된 카드가 충분하지 않습니다.");
+            Debug.LogError("선택된 카드 프리팹이 충분하지 않습니다.");
             return;
         }
 
         // 랜덤으로 섞기
-        List<GameObject> shuffledCards = SelectedCards.OrderBy(card => Random.value).ToList();
-        
-        Debug.Log(shuffledCards.Count);
+        List<GameObject> shuffledPrefabs = SelectedCards.OrderBy(card => Random.value).ToList();
 
         // Preparation에 2개 배치
         GameObject preparationArea = Client.Instance.GetPlayerID() == 1 ? player1Preparation : player2Preparation;
+
+       
+
         for (int i = 0; i < 2; i++)
         {
-            GameObject card = Instantiate(shuffledCards[i], preparationArea.transform);
-            card.transform.localScale = Vector3.one; // 크기 초기화
+            Vector3 preparationPosition = new Vector3(-10.48f, -2.58f, 0); // Preparation 영역의 시작 위치
+            float preparationOffset = 1.5f; // 카드 간 간격
+            
+            if (shuffledPrefabs[i] == null)
+            {
+                Debug.LogError("Preparation 프리팹이 null입니다. 생성할 수 없습니다.");
+                continue;
+            }
+
+            // 위치 계산
+            Vector3 position = preparationPosition + new Vector3(preparationOffset * i, 0, 0);
+
+            // 카드 생성
+            GameObject card = Instantiate(shuffledPrefabs[i], position, Quaternion.identity, preparationArea.transform);
+            card.transform.localScale = new Vector3(2.05954742f, 3.40518713f, 1.25034416f);
         }
 
         // Participation에 1개 배치
-        GameObject participationArea = Client.Instance.GetPlayerID() == 1 
+        GameObject participationArea = Client.Instance.GetPlayerID() == 1
             ? GameObject.FindWithTag("Player1").transform.Find("Participation").gameObject
             : GameObject.FindWithTag("Player2").transform.Find("Participation").gameObject;
 
-        GameObject participationCard = Instantiate(shuffledCards[2], participationArea.transform);
-        participationCard.transform.localScale = Vector3.one; // 크기 초기화
+        Vector3 participationPosition = new Vector3(0, -3, 0); // Participation 영역의 위치
+
+        if (shuffledPrefabs[2] == null)
+        {
+            Debug.LogError("Participation 프리팹이 null입니다. 생성할 수 없습니다.");
+            return;
+        }
+
+        GameObject participationCard = Instantiate(shuffledPrefabs[2], participationPosition, Quaternion.identity, participationArea.transform);
+        participationCard.transform.localScale = Vector3.one;
 
         Debug.Log("Preparation에 2개, Participation에 1개의 카드가 랜덤 배치되었습니다.");
     }
+
     
     public void SetSelectedCards(List<GameObject> cards)
     {
