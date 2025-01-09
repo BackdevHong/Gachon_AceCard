@@ -13,6 +13,7 @@ public class ObjectSelector : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(Instance);
         }
         else
         {
@@ -55,8 +56,24 @@ public class ObjectSelector : MonoBehaviour
     {
         if (selectedObjects.Count == 3)
         {
-            Debug.Log("3개의 카드 선택 완료");
-            // 다른 시스템에 선택 데이터를 전달 가능
+            List<GameObject> selectedPrefabs = new List<GameObject>();
+
+            foreach (var selectedObject in selectedObjects)
+            {
+                if (selectedObject == null)
+                {
+                    Debug.LogError("선택된 오브젝트가 null입니다.");
+                    continue;
+                }
+
+                selectedPrefabs.Add(selectedObject); // 프리팹을 직접 참조
+            }
+
+            if (selectedPrefabs.Count == 3)
+            {
+                GameManager.Instance.SetSelectedCards(selectedPrefabs);
+                Debug.Log("프리팹이 성공적으로 저장되었습니다.");
+            }
         }
         else
         {

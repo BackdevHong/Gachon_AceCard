@@ -4,6 +4,8 @@ using Skills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class GameManager : MonoBehaviour
     private CharacterCard selectedPreparationCard; // 선택된 Preparation 카드
     public bool isSwitching = false; // 교체 모드 활성화 여부
     public static GameManager Instance;
+    
+    public List<GameObject> SelectedCards { get; private set; } = new List<GameObject>();
 
     private int _turnC = -1;
     private int _Round = 0;
@@ -31,17 +35,12 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // UpdateTurnUI();
-            // Client.Instance.SendReadyPacket();
-
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    
-    
 
     public void Connect()
     {
@@ -51,6 +50,44 @@ public class GameManager : MonoBehaviour
     public void StartServer()
     {
         Server.Instance.CreateServer();
+    }
+    
+    public void AssignRandomCards()
+    {
+        if (SelectedCards.Count < 3)
+        {
+            Debug.LogError("선택된 카드가 충분하지 않습니다.");
+            return;
+        }
+
+        // 랜덤으로 섞기
+        List<GameObject> shuffledCards = SelectedCards.OrderBy(card => Random.value).ToList();
+        
+        Debug.Log(shuffledCards.Count);
+
+        // Preparation에 2개 배치
+        GameObject preparationArea = Client.Instance.GetPlayerID() == 1 ? player1Preparation : player2Preparation;
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject card = Instantiate(shuffledCards[i], preparationArea.transform);
+            card.transform.localScale = Vector3.one; // 크기 초기화
+        }
+
+        // Participation에 1개 배치
+        GameObject participationArea = Client.Instance.GetPlayerID() == 1 
+            ? GameObject.FindWithTag("Player1").transform.Find("Participation").gameObject
+            : GameObject.FindWithTag("Player2").transform.Find("Participation").gameObject;
+
+        GameObject participationCard = Instantiate(shuffledCards[2], participationArea.transform);
+        participationCard.transform.localScale = Vector3.one; // 크기 초기화
+
+        Debug.Log("Preparation에 2개, Participation에 1개의 카드가 랜덤 배치되었습니다.");
+    }
+    
+    public void SetSelectedCards(List<GameObject> cards)
+    {
+        SelectedCards = cards;
+        Debug.Log("GameManager에 선택된 카드가 저장되었습니다.");
     }
 
     public void StartSwitch()

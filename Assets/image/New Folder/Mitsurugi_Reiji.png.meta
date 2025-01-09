@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Mitsurugi_Reiji_0: 6832665338749249428
+      Mitsurugi_Reiji_1: -101231109198725977
+      Mitsurugi_Reiji_2: -1096928141055105926
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Godot_0: -7291341612701815031
+      Godot_1: 5783393660310986186
+      Godot_2: -3277003450140384208
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

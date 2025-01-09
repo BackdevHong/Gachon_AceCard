@@ -36,6 +36,8 @@ public class GameUIManager : MonoBehaviour
         
         _gameManager.turnEndButton = endTurnButton;
         
+        _gameManager.AssignRandomCards();
+        
         endTurnButton.onClick.AddListener(() =>
         {
             Client.Instance.SendTurnEndRequest();

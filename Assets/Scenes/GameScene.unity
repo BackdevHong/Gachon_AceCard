@@ -561,9 +561,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871007015}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartServer
+      - m_Target: {fileID: 6321578282900799077, guid: c4df502629f33294baf0a6a0ba02a968, type: 3}
+        m_TargetAssemblyTypeName: Server, Assembly-CSharp
+        m_MethodName: CreateServer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -5,7 +5,7 @@ public class MainScene : MonoBehaviour
 {
     public void OnMainConfigButtonClick()
     {
-        SceneManager.LoadScene("GameScene"); // CardDeckScene으로 전환
+        SceneManager.LoadScene("SampleScene"); // CardDeckScene으로 전환
     }
 }
 
