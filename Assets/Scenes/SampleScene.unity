@@ -218,8 +218,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 1217934127
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!1001 &27356070
 PrefabInstance:
@@ -2524,7 +2524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeCanvasGroup: {fileID: 199231349}
-  fadeDuration: 1
+  fadeDuration: 2
 --- !u!4 &1998695477
 Transform:
   m_ObjectHideFlags: 0
