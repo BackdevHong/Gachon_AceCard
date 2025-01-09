@@ -4,8 +4,9 @@ using System.Collections;
 
 public class TransitionManager : MonoBehaviour
 {
-    public CanvasGroup fadeCanvasGroup; // CanvasGroup으로 Alpha 값 제어
-    public float fadeDuration = 1f; // 페이드 지속 시간
+    public CanvasGroup fadeCanvasGroup; // FadePanel의 CanvasGroup
+    public float fadeOutDuration = 1f; // 페이드 아웃 지속 시간
+    public float fadeInDuration = 2f;  // 페이드 인 지속 시간 (밝아지는 속도)
 
     public static TransitionManager Instance;
 
@@ -22,52 +23,35 @@ public class TransitionManager : MonoBehaviour
         }
     }
 
-    public void LoadSceneWithFade(string SampleScene)
+    public void LoadSceneWithFade(string sceneName)
     {
-        StartCoroutine(FadeAndLoadScene(SampleScene));
+        StartCoroutine(FadeAndLoadScene(sceneName));
     }
 
-    private IEnumerator FadeAndLoadScene(string SampleScene)
+    private IEnumerator FadeAndLoadScene(string sceneName)
     {
-        // 1. 화면을 어둡게 만듦 (페이드 아웃)
-        yield return StartCoroutine(Fade(1f)); // 화면이 완전히 어두워질 때까지 기다림
+        // 1. 페이드 아웃 (화면 어두워짐)
+        yield return StartCoroutine(Fade(1f, fadeOutDuration)); // 페이드 아웃 속도 조절
 
         // 2. 씬 로드
-        yield return StartCoroutine(LoadScene(SampleScene));
+        SceneManager.LoadScene(sceneName);
 
-        // 3. 화면을 밝게 만듦 (페이드 인)
-        yield return StartCoroutine(Fade(0f)); // 화면이 완전히 밝아짐
+        // 3. 페이드 인 (화면 밝아짐)
+        yield return StartCoroutine(Fade(0f, fadeInDuration)); // 페이드 인 속도 조절
     }
 
-    private IEnumerator LoadScene(string CardDeckScene)
+    private IEnumerator Fade(float targetAlpha, float duration)
     {
-        // 씬을 비동기로 로드
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(CardDeckScene);
-        asyncLoad.allowSceneActivation = false; // 씬 전환 대기
-
-        // 씬 로드 진행 상태를 확인
-        while (!asyncLoad.isDone)
-        {
-            if (asyncLoad.progress >= 0.9f) // 로드 완료 시
-            {
-                asyncLoad.allowSceneActivation = true; // 씬 활성화
-            }
-            yield return null;
-        }
-    }
-
-    private IEnumerator Fade(float targetAlpha)
-    {
-        float startAlpha = fadeCanvasGroup.alpha;
+        float startAlpha = fadeCanvasGroup.alpha; // 현재 Alpha 값
         float elapsedTime = 0f;
 
-        while (elapsedTime < fadeDuration)
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            fadeCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
+            fadeCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / duration);
             yield return null;
         }
 
-        fadeCanvasGroup.alpha = targetAlpha; // 정확히 목표 alpha로 설정
+        fadeCanvasGroup.alpha = targetAlpha; // 정확히 목표 Alpha 값으로 설정
     }
 }
