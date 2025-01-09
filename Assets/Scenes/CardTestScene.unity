@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7224677}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Preparation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 129987572}
   - component: {fileID: 129987571}
   - component: {fileID: 129987570}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -605,6 +605,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Karma
       objectReference: {fileID: 0}
+    - target: {fileID: 1293424760666407573, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282454760150737503, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833482024841586153, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998217301495460146, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6452215042801147179, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -721,7 +737,7 @@ GameObject:
   - component: {fileID: 340126525}
   - component: {fileID: 340126527}
   - component: {fileID: 340126526}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player2Cost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 409972782}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Preparation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 484943258}
   - component: {fileID: 484943259}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1001,9 +1017,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mia Fey
       objectReference: {fileID: 0}
+    - target: {fileID: 1293424760666407573, guid: 0344712c9c9a88b49ba88f513784407f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497455424487368570, guid: 0344712c9c9a88b49ba88f513784407f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392562169562572449, guid: 0344712c9c9a88b49ba88f513784407f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552110174132350749, guid: 0344712c9c9a88b49ba88f513784407f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6452215042801147179, guid: 0344712c9c9a88b49ba88f513784407f, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8150671729039206758, guid: 0344712c9c9a88b49ba88f513784407f, type: 3}
       propertyPath: m_SortingOrder
@@ -1062,7 +1094,7 @@ GameObject:
   - component: {fileID: 703875982}
   - component: {fileID: 703875984}
   - component: {fileID: 703875983}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player1Cost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1251,9 +1283,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Larry Butz
       objectReference: {fileID: 0}
+    - target: {fileID: 1293424760666407573, guid: 66af494a810ab6e45b5c7c8719d90080, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810251382112407132, guid: 66af494a810ab6e45b5c7c8719d90080, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282454760150737503, guid: 66af494a810ab6e45b5c7c8719d90080, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103766372349973098, guid: 66af494a810ab6e45b5c7c8719d90080, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6452215042801147179, guid: 66af494a810ab6e45b5c7c8719d90080, type: 3}
       propertyPath: m_SortingOrder
-      value: 23
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1333,6 +1381,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Godot
       objectReference: {fileID: 0}
+    - target: {fileID: 1293424760666407573, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1734388395292214809, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -1349,9 +1401,21 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 2287589264255548979, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857457890709119970, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641219123889078658, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6452215042801147179, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8150671729039206758, guid: eb63ae4f33d5a3349b0913f55b442636, type: 3}
       propertyPath: m_SortingOrder
@@ -1445,6 +1509,22 @@ PrefabInstance:
     - target: {fileID: 1293424760666407573, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
       propertyPath: m_Name
       value: Marvin Grossberg
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293424760666407573, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537430136209313444, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282454760150737503, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5367164528923364430, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1645,7 +1725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1291075200}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Participation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1677,7 +1757,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1302558767}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Participation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1709,7 +1789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1362403918}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player2
   m_TagString: Player2
   m_Icon: {fileID: 0}
@@ -1900,7 +1980,7 @@ GameObject:
   - component: {fileID: 1629345031}
   - component: {fileID: 1629345030}
   - component: {fileID: 1629345029}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1993,7 +2073,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!1 &1649495364
 GameObject:
@@ -2093,7 +2173,7 @@ GameObject:
   - component: {fileID: 1772299199}
   - component: {fileID: 1772299201}
   - component: {fileID: 1772299200}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2314,7 +2394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1783232462}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player1
   m_TagString: Player1
   m_Icon: {fileID: 0}
@@ -2775,6 +2855,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dick Gumshoe
       objectReference: {fileID: 0}
+    - target: {fileID: 1293424760666407573, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396457223056168893, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282454760150737503, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2402040290225974994, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_SortingOrder
       value: 100
@@ -2785,11 +2877,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6452215042801147179, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8150671729039206758, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8622970328258470695, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
