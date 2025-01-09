@@ -477,7 +477,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!1 &444472890
 GameObject:
@@ -1328,8 +1328,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1081898472}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1081898474
 MonoBehaviour:
@@ -1662,8 +1662,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeCanvasGroup: {fileID: 1081898473}
-  fadeOutDuration: 1
-  fadeInDuration: 2
+  fadeOutDuration: 0.7
+  fadeInDuration: 1.5
 --- !u!4 &1233913522
 Transform:
   m_ObjectHideFlags: 0
