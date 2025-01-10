@@ -61,11 +61,11 @@ public class Client : MonoBehaviour
             {2, 1}
         };
         DontDestroyOnLoad(gameObject);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("WaitingScene");
-        if (GetPlayerID() == 2)
+        UnityEngine.SceneManagement.SceneManager.LoadScene("CardTestScene");
+        /*if (GetPlayerID() == 2)
         {
             SceneManager.LoadScene("CardTestScene");
-        }
+        }*/
     }
     
     private void ConnectionCallback(IAsyncResult ar)
