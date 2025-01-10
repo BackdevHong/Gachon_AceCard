@@ -36,7 +36,7 @@ public class GameUIManager : MonoBehaviour
         
         _gameManager.turnEndButton = endTurnButton;
         
-        _gameManager.AssignRandomCards();
+        _gameManager.ReplaceCardsRandomly();
         
         endTurnButton.onClick.AddListener(() =>
         {
@@ -49,7 +49,7 @@ public class GameUIManager : MonoBehaviour
         });
         _gameManager.UpdateCostUI();
         StartTurnTimer(turnTimeLimit);
-        SetupPlayerPositions();
+        // SetupPlayerPositions();
     }
     
     private void Update()
@@ -102,38 +102,38 @@ public class GameUIManager : MonoBehaviour
         Client.Instance.SendTurnEndRequest(); // 자동으로 턴 종료 요청
     }
     
-    public void SetupPlayerPositions()
-    {
-        int playerId = Client.Instance.GetPlayerID(); // 현재 플레이어 ID
-        int opponentId = playerId == 1 ? 2 : 1; // 상대방 ID
-        
-        if (Client.Instance.ready) return;
-        
-        if (opponentId == 2)
-        {
-            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
-            GameObject player = GameObject.FindWithTag($"Player{playerId}");
-            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
-
-            // 위치 설정
-            player.transform.position = new Vector3(-2.1319f, -0.2527f, 0); // 자신의 카드 (아래쪽)
-            opponent.transform.position = new Vector3(-2.1319f, -0.2527f, 0); // 상대방의 카드 (위쪽)
-        }
-        else
-        {
-            // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
-            GameObject player = GameObject.FindWithTag($"Player{playerId}");
-            GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
-
-            player.transform.Find("Preparation").transform.position = new Vector3(-2.1319f, -3.4f, 0); // 자신의 Preparation (위쪽 )
-            opponent.transform.Find("Preparation").transform.position = new Vector3(-2.1319f, 3.4f, 0); // 자신의 Participation (아래쪽 )
-            
-            player.transform.Find("Participation").transform.position = new Vector3(-2.1319f, -2f, 0); // 자신의 Preparation (아래쪽)
-            opponent.transform.Find("Participation").transform.position = new Vector3(-2.1319f, 1.4f, 0); // 자신의 Preparation (아래쪽)
-        }
-
-        Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");
-    }
+    // public void SetupPlayerPositions()
+    // {
+    //     int playerId = Client.Instance.GetPlayerID(); // 현재 플레이어 ID
+    //     int opponentId = playerId == 1 ? 2 : 1; // 상대방 ID
+    //     
+    //     if (Client.Instance.ready) return;
+    //     
+    //     if (opponentId == 2)
+    //     {
+    //         // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
+    //         GameObject player = GameObject.FindWithTag($"Player{playerId}");
+    //         GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
+    //
+    //         // 위치 설정
+    //         player.transform.position = new Vector3(-2.1319f, -0.2527f, 0); // 자신의 카드 (아래쪽)
+    //         opponent.transform.position = new Vector3(-2.1319f, -0.2527f, 0); // 상대방의 카드 (위쪽)
+    //     }
+    //     else
+    //     {
+    //         // 자신의 UI를 항상 아래로, 상대방 UI를 위로 배치
+    //         GameObject player = GameObject.FindWithTag($"Player{playerId}");
+    //         GameObject opponent = GameObject.FindWithTag($"Player{opponentId}");
+    //
+    //         player.transform.Find("Preparation").transform.position = new Vector3(-2.1319f, -3.4f, 0); // 자신의 Preparation (위쪽 )
+    //         opponent.transform.Find("Preparation").transform.position = new Vector3(-2.1319f, 3.4f, 0); // 자신의 Participation (아래쪽 )
+    //         
+    //         player.transform.Find("Participation").transform.position = new Vector3(-2.1319f, -2f, 0); // 자신의 Preparation (아래쪽)
+    //         opponent.transform.Find("Participation").transform.position = new Vector3(-2.1319f, 1.4f, 0); // 자신의 Preparation (아래쪽)
+    //     }
+    //
+    //     Debug.Log($"Player {playerId} 위치: 아래쪽, Player {opponentId} 위치: 위쪽");
+    // }
     
     public List<CharacterCard> GetAllCards(int playerID)
     {

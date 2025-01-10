@@ -52,60 +52,66 @@
             Server.Instance.CreateServer();
         }
         
-        public void AssignRandomCards()
+        public void ReplaceCardsRandomly()
         {
-            if (SelectedCards == null || SelectedCards.Count < 3)
+            if (SelectedCards.Count != 3)
             {
-                Debug.LogError("선택된 카드 프리팹이 충분하지 않습니다.");
+                Debug.LogError("새 프리팹 리스트는 정확히 3개여야 합니다.");
                 return;
             }
 
-            // 랜덤으로 섞기
-            List<GameObject> shuffledPrefabs = SelectedCards.OrderBy(card => Random.value).ToList();
-
-            // Preparation 고정된 위치
-            Vector3[] preparationPositions = new Vector3[]
-            {
-                new Vector3(-3f, 1f, 0f), // 첫 번째 카드 위치 (World Space)
-                new Vector3(-1f, 1f, 0f)  // 두 번째 카드 위치 (World Space)
-            };
-
-            // Preparation에 2개 배치
+            // Preparation과 Participation 영역 가져오기
             GameObject preparationArea = Client.Instance.GetPlayerID() == 1 ? player1Preparation : player2Preparation;
-
-            for (int i = 0; i < 2; i++)
-            {
-                if (shuffledPrefabs[i] == null)
-                {
-                    Debug.LogError($"Preparation 프리팹이 null입니다. Index: {i}");
-                    continue;
-                }
-
-                // 고정된 위치에 배치
-                GameObject card = Instantiate(shuffledPrefabs[i], preparationPositions[i], Quaternion.identity, preparationArea.transform);
-                card.transform.localScale = Vector3.one; // 크기 초기화
-            }
-
-            // Participation 고정된 위치
-            Vector3 participationPosition = new Vector3(0f, -2f, 0f); // Participation 위치 (World Space)
-
             GameObject participationArea = Client.Instance.GetPlayerID() == 1
                 ? GameObject.FindWithTag("Player1").transform.Find("Participation").gameObject
                 : GameObject.FindWithTag("Player2").transform.Find("Participation").gameObject;
 
-            if (shuffledPrefabs[2] == null)
+            // 기존 Preparation 카드들 가져오기
+            var existingPreparationCards = preparationArea.GetComponentsInChildren<CharacterCard>();
+            if (existingPreparationCards.Length != 2)
             {
-                Debug.LogError("Participation 프리팹이 null입니다.");
+                Debug.LogError("Preparation 영역에 기존 카드가 2개가 있어야 합니다.");
                 return;
             }
 
-            GameObject participationCard = Instantiate(shuffledPrefabs[2], participationPosition, Quaternion.identity, participationArea.transform);
-            participationCard.transform.localScale = Vector3.one; // 크기 초기화
+            // 기존 Participation 카드 가져오기
+            var existingParticipationCards = participationArea.GetComponentsInChildren<CharacterCard>();
+            if (existingParticipationCards.Length != 1)
+            {
+                Debug.LogError("Participation 영역에 기존 카드가 1개가 있어야 합니다.");
+                return;
+            }
 
-            Debug.Log("Preparation에 2개, Participation에 1개의 카드가 고정된 위치에 배치되었습니다.");
+            // 새 프리팹을 랜덤으로 섞기
+            List<GameObject> shuffledPrefabs = SelectedCards.OrderBy(card => Random.value).ToList();
+
+            // Preparation 카드 교체
+            for (int i = 0; i < existingPreparationCards.Length; i++)
+            {
+                Vector3 oldPosition = existingPreparationCards[i].transform.localPosition;
+                Vector3 oldScale = existingPreparationCards[i].transform.localScale;
+                Transform parent = existingPreparationCards[i].transform.parent;
+
+                Destroy(existingPreparationCards[i].gameObject);
+
+                GameObject newCard = Instantiate(shuffledPrefabs[i], parent);
+                newCard.transform.localPosition = oldPosition;
+                newCard.transform.localScale = oldScale; // 크기 초기화
+            }
+
+            // Participation 카드 교체
+            Vector3 participationPosition = existingParticipationCards[0].transform.localPosition;
+            Transform participationParent = existingParticipationCards[0].transform.parent;
+            Vector3 participationScale = existingParticipationCards[0].transform.localScale;
+
+            Destroy(existingParticipationCards[0].gameObject);
+
+            GameObject newParticipationCard = Instantiate(shuffledPrefabs[2], participationParent);
+            newParticipationCard.transform.localPosition = participationPosition;
+            newParticipationCard.transform.localScale = participationScale; // 크기 초기화
+
+            Debug.Log("Preparation과 Participation 카드가 새 프리팹으로 랜덤하게 교체되었습니다.");
         }
-
-
         
         public void SetSelectedCards(List<GameObject> cards)
         {

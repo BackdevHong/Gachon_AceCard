@@ -36,6 +36,7 @@ public class Client : MonoBehaviour
             SetupTurnEventHandler();
             SetupCostEventHandler();
             SetupCostAddEventHandler();
+            SetupStartGameHandler();
             // SetupPlayerCountHandler();
         }
         else
@@ -60,7 +61,11 @@ public class Client : MonoBehaviour
             {2, 1}
         };
         DontDestroyOnLoad(gameObject);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("CardTestScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("WaitingScene");
+        if (GetPlayerID() == 2)
+        {
+            SceneManager.LoadScene("CardTestScene");
+        }
     }
     
     private void ConnectionCallback(IAsyncResult ar)
@@ -95,20 +100,27 @@ public class Client : MonoBehaviour
             int packetLength = _stream.EndRead(ar);
             if (packetLength <= 0)
             {
-                Debug.Log("Disconnected from server.");
-                _connected = false;
+                Debug.LogWarning("서버와의 연결이 끊어졌습니다.");
                 return;
             }
 
             byte[] data = new byte[packetLength];
             Array.Copy(_receiveBuffer, data, packetLength);
 
+            Debug.Log($"수신한 데이터: {BitConverter.ToString(data)}");
+
             Packet packet = new Packet(data);
-            int commandID = packet.ReadInt();
+            int commandID = packet.ReadInt(); // PacketType 읽기
+
+            Debug.Log($"CommandID 수신: {commandID}");
 
             if (_connectedActions.ContainsKey(commandID))
             {
                 _connectedActions[commandID]?.Invoke(data);
+            }
+            else
+            {
+                Debug.LogWarning($"알 수 없는 CommandID: {commandID}");
             }
 
             StartRead();
@@ -206,6 +218,7 @@ public class Client : MonoBehaviour
 
         Debug.Log($"턴 종료 요청 전송: {newTurn}");
     }
+
     
     public void SendUpdateCostEvent(int useCost)
     {
@@ -363,6 +376,18 @@ public class Client : MonoBehaviour
             MainThreadDispatcher.ExecuteOnMainThread(() =>
             {
                 GameManager.Instance.UpdateCost(switchEvent);
+            });
+        });
+    }
+    
+    private void SetupStartGameHandler()
+    {
+        RegisterAction((int)PacketType.StartGame, data =>
+        {
+            Debug.Log("StartGame 패킷 수신. CardTestScene으로 이동합니다.");
+            MainThreadDispatcher.ExecuteOnMainThread(() =>
+            {
+                SceneManager.LoadScene("CardTestScene");
             });
         });
     }
