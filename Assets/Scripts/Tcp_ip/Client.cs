@@ -37,6 +37,7 @@ public class Client : MonoBehaviour
             SetupCostEventHandler();
             SetupCostAddEventHandler();
             SetupStartGameHandler();
+            SetupHpEventHandler();
             // SetupPlayerCountHandler();
         }
         else
@@ -253,6 +254,23 @@ public class Client : MonoBehaviour
         // 서버로 데이터 전송
         _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
+
+    public void SendAddHpEvent(int playerId, int addHp, int type)
+    {
+        Utilities.HPAddEvent hpAddEvent = new Utilities.HPAddEvent()
+        {
+            playerID = playerId,
+            addHp = addHp,
+            type = type
+        };
+        
+        string json = JsonUtility.ToJson(hpAddEvent);
+        Packet packet = new Packet();
+        packet.Write((int) PacketType.AddHp);
+        packet.Write(json);
+        
+        _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
+    }
     
     
     public void RequestTurnTime()
@@ -410,6 +428,30 @@ public class Client : MonoBehaviour
         });
     }
     
+    private void SetupHpEventHandler()
+    {
+        RegisterAction((int)PacketType.AddHp, data =>
+        {
+            Packet packet = new Packet(data);
+            int type = packet.ReadInt();
+            string json = packet.ReadString();
+            Utilities.HPAddEvent addHpEvent = JsonUtility.FromJson<Utilities.HPAddEvent>(json);
+
+            Debug.Log($"받은 Cost Event: Player {addHpEvent.playerID}, Add {addHpEvent.addHp}");
+            // 타겟 카드 교체 반영
+            MainThreadDispatcher.ExecuteOnMainThread(() =>
+            {
+                if (addHpEvent.type == 1)
+                {
+                    GameManager.Instance.HealOneCard(addHpEvent.playerID, addHpEvent.addHp);
+                } else if (addHpEvent.type == 2)
+                {
+                    GameManager.Instance.HealCard(addHpEvent.playerID, addHpEvent.addHp);
+                }
+            });
+        });
+    }
+
 
     // 카드 찾는 함수    
     private CharacterCard FindMyCardById(int pid)

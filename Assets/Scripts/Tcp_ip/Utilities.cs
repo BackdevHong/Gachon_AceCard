@@ -48,6 +48,14 @@ public class Utilities
     }
     
     [Serializable]
+    public class HPAddEvent
+    {
+        public int playerID;
+        public int addHp;
+        public int type; // 1 = 혼자, 2 = 다같이
+    }
+    
+    [Serializable]
     public class CostData
     {
         public int PlayerID;

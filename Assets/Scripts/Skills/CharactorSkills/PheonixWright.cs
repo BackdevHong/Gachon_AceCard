@@ -13,5 +13,9 @@ public class PheonixWright : Skill
     {
         myCharacter.Heal(1);
         SelectedTarget.TakeDamage(3);
+        if (GameManager.Instance.appendSkillDamage)
+        {
+            SelectedTarget.TakeDamage(3);
+        }
     }
 }

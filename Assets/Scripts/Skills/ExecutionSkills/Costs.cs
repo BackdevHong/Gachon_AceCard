@@ -1,7 +1,7 @@
 ﻿using Skills;
 using UnityEngine;
 
-public class Consensus : Skill
+public class Costs : Skill
 {
     public override void OnSkill()
     {
@@ -12,14 +12,9 @@ public class Consensus : Skill
             Debug.Log("Error: No action card attached");
             return;
         }
-
-        if (GameManager.Instance.usedHpCard)
-        {
-            return;
-        }
         
         Client.Instance.SendUpdateCostEvent(actionCard.cost);
-        GameManager.Instance.OnActionUse(ActionType.AddOneHp, 1);
+        GameManager.Instance.OnActionUse(ActionType.AddCost, 2);
         Destroy(this);
     }
 }

@@ -20,5 +20,9 @@ public class Godot : Skill
         }
         
         SelectedTarget.TakeDamage(4);
+        if (GameManager.Instance.appendSkillDamage)
+        {
+            SelectedTarget.TakeDamage(3);
+        }
     }
 }

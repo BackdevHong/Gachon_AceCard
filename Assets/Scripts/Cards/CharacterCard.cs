@@ -14,7 +14,8 @@ public class CharacterCard : MonoBehaviour
     public string uniqueID; // 고유 ID
     public TMP_Text hpText; // 체력 표시 TextMeshPro
     public TMP_Text attackText; // 공격력 표시 TextMeshPro
-
+    
+    private bool isDead = false; // 캐릭터가 죽었는지 여부
 
     private void Awake()
     {
@@ -38,13 +39,14 @@ public class CharacterCard : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        hp -= damage;
+        if (isDead) return; // 이미 죽은 상태라면 데미지를 받지 않음
 
+        hp -= damage;
         UpdateUI();
+
         if (hp <= 0)
         {
-            Debug.Log($"{name} 캐릭터가 쓰러졌습니다.");
-            Destroy(gameObject); // 카드 제거
+            Die();
         }
     }
 
@@ -52,6 +54,26 @@ public class CharacterCard : MonoBehaviour
     {
         hp += heal;
         UpdateUI();
+    }
+    
+    public void Die()
+    {
+        isDead = true;
+        hp = 0;
+        UpdateUI();
+        gameObject.SetActive(false); // 오브젝트를 비활성화
+        Debug.Log($"{name} 캐릭터가 쓰러졌습니다.");
+    }
+    
+    public void Revive()
+    {
+        if (!isDead) return; // 죽은 상태가 아니면 부활하지 않음
+
+        isDead = false;
+        hp = 10; // 체력을 10으로 초기화
+        gameObject.SetActive(true); // 오브젝트를 활성화
+        UpdateUI();
+        Debug.Log($"{name} 캐릭터가 부활했습니다! 체력: {hp}");
     }
 
     private void OnMouseDown()

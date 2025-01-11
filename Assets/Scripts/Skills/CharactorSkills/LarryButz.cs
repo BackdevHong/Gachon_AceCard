@@ -20,5 +20,9 @@ public class LarryButz : Skill
         }
         
         SelectedTarget.TakeDamage(4); // 대상에게 데미지
+        if (GameManager.Instance.appendSkillDamage)
+        {
+            SelectedTarget.TakeDamage(3);
+        }
     }
 }

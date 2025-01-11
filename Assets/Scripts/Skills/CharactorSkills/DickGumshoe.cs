@@ -27,6 +27,10 @@ public class DickGumshoe : Skill
         foreach (var card in allCards)
         {
             card.TakeDamage(2); // 적군 모두에게 데미지
+            if (GameManager.Instance.appendSkillDamage)
+            {
+                card.TakeDamage(3);
+            }
         }
         Debug.Log($"{myCharacter.name}이(가) {SelectedTarget.name}에게 스킬을 사용했습니다.");
     }

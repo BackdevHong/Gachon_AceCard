@@ -16,7 +16,8 @@ public enum PacketType
     PlayerCount,
     TurnTimeRequest,
     TurnTimeSync,
-    StartGame
+    StartGame,
+    AddHp
 }
 
 public class Packet
