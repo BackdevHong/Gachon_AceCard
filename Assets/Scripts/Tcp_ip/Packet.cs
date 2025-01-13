@@ -17,7 +17,9 @@ public enum PacketType
     TurnTimeRequest,
     TurnTimeSync,
     StartGame,
-    AddHp
+    AddHp,
+    DeckSelection // 추가: DeckSelection 패킷 타입
+
 }
 
 public class Packet

@@ -162,6 +162,8 @@ public class Client : MonoBehaviour
         // 서버로 데이터 전송
         _stream.Write(packet.ToArray(), 0, packet.ToArray().Length);
     }
+
+
     
     public void SendSkillEvent(int attackerPid, SkillType type, int cost)
     {

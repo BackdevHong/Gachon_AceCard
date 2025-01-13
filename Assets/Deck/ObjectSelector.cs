@@ -82,7 +82,7 @@ public class ObjectSelector : MonoBehaviour
             Debug.Log("3개의 오브젝트를 모두 선택해야 합니다.");
         }
     }
-    
+
     public List<GameObject> GetSelectedObjects()
     {
         return new List<GameObject>(selectedObjects);
