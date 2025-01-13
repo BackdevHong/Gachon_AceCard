@@ -1738,7 +1738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1787,6 +1787,18 @@ PrefabInstance:
     - target: {fileID: 2354869065100153148, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.009996
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354869065100153148, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354869065100153148, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.356
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254739552099577748, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6452215042801147179, guid: da6cf08f513bd57489d27da7b6d80cac, type: 3}
       propertyPath: m_SortingOrder
@@ -5511,6 +5523,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Marvin Grossberg
       objectReference: {fileID: 0}
+    - target: {fileID: 6452215042801147179, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534772602681485806, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7194629047581211119, guid: ee38618f51bc1ee418de5e6ea89f368f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.009997
@@ -5715,15 +5735,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 104499248617677604, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_LocalScale.x
-      value: 140.9903
+      value: 131.02087
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_LocalScale.y
-      value: 233.1087
+      value: 216.62558
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_LocalScale.z
-      value: 79.942795
+      value: 74.29004
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5731,7 +5751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34.1
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 104499248617677604, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5768,6 +5788,14 @@ PrefabInstance:
     - target: {fileID: 1293424760666407573, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
       propertyPath: m_Name
       value: Karma
+      objectReference: {fileID: 0}
+    - target: {fileID: 3777302027967387687, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6452215042801147179, guid: a242de22fa6cfeb4d809778b02b3dc86, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

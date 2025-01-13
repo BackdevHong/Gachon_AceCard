@@ -23,6 +23,8 @@ public class Client : MonoBehaviour
     private int _currentTurnPlayerID = 1;
     public Dictionary<int, int> PlayerCosts; // 각 클라이언트의 코스트 관리
     public bool ready = false;
+    private int localTurnCounter = 0; // 클라이언트 측 턴 카운터
+    private const int maxPlayers = 2; // 플레이어 수 (예: 2명)
 
     private void Awake() {
         if (Instance == null)
