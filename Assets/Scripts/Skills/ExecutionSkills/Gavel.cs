@@ -1,19 +1,22 @@
+using System;
+using Skills;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Gavel : Skill
 {
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
-    public bool isTriggered = false;
-
     public override void OnSkill()
-    {
-        targetCharacter.attack += 1;
-        UpdateText();
-    }
-    
-    public override void UpdateText()
-    {
-        targetCharacter.attackText.text = targetCharacter.attack.ToString();
+    {       
+        ActionCard actionCard = GetComponent<ActionCard>();
+        
+        if (actionCard == null)
+        {
+            Debug.Log("Error: No action card attached");
+            return;
+        }
+        
+        Client.Instance.SendUpdateCostEvent(actionCard.cost);
+        GameManager.Instance.OnActionUse(ActionType.AddNormalAttackDamage);
+        Destroy(this);
     }
 }

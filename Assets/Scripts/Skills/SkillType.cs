@@ -13,6 +13,12 @@
         ReduceCost,
         FreeSwitch,
         ReduceAttackCost,
-        FreeSkillCost
+        FreeSkillCost,
+        AddNormalAttackDamage,
+        AddOneHp,
+        AddHp,
+        AddLongHp,
+        AddSkillDamage,
+        FreeAttack,
     }
 }

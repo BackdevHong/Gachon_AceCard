@@ -21,6 +21,9 @@ public class KarmaMai : Skill
         
         SelectedTarget.TakeDamage(3); // 대상에게 데미지
         SelectedTarget.TakeDamage(3); // 대상에게 데미지
-        
+        if (GameManager.Instance.appendSkillDamage)
+        {
+            SelectedTarget.TakeDamage(3);
+        }
     }
 }

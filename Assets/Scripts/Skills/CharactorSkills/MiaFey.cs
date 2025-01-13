@@ -29,6 +29,10 @@ public class MiaFey : Skill
         foreach (var card in enemyCards)
         {
             card.TakeDamage(1);
+            if (GameManager.Instance.appendSkillDamage)
+            {
+                card.TakeDamage(3);
+            }
         }
     }
 }

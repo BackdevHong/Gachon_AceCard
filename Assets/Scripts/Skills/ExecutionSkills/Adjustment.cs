@@ -1,19 +1,25 @@
+﻿using Skills;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Adjustment : Skill
 {
-    [FormerlySerializedAs("targetCharactor")] public CharacterCard targetCharacter; // 스킬 대상
-    public bool isTriggered = false;
-
     public override void OnSkill()
     {
-        targetCharacter.hp += 1;
-        UpdateText();
-    }
-    
-    public override void UpdateText()
-    {
-        targetCharacter.hpText.text = targetCharacter.hp.ToString();
+        ActionCard actionCard = GetComponent<ActionCard>();
+
+        if (actionCard == null)
+        {
+            Debug.Log("Error: No action card attached");
+            return;
+        }
+
+        if (GameManager.Instance.usedHpCard)
+        {
+            return;
+        }
+        
+        Client.Instance.SendUpdateCostEvent(actionCard.cost);
+        GameManager.Instance.OnActionUse(ActionType.AddOneHp, 2);
+        Destroy(this);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Skills;
 using UnityEngine;
 
-public class Consensus : Skill
+public class PostponedJudgment : Skill
 {
     public override void OnSkill()
     {
@@ -19,7 +19,7 @@ public class Consensus : Skill
         }
         
         Client.Instance.SendUpdateCostEvent(actionCard.cost);
-        GameManager.Instance.OnActionUse(ActionType.AddOneHp, 1);
+        GameManager.Instance.OnActionUse(ActionType.AddLongHp, 1);
         Destroy(this);
     }
 }

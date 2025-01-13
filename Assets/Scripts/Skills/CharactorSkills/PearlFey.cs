@@ -19,6 +19,11 @@ public class PearlFey : Skill
         }
         
         SelectedTarget.TakeDamage(2);
+        if (GameManager.Instance.appendSkillDamage)
+        {
+            SelectedTarget.TakeDamage(3);
+        }
+        
         myCharacter.Heal(1);
     }
 }

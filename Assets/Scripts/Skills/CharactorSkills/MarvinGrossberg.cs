@@ -20,6 +20,10 @@ public class MarvinGrossberg : Skill
         }
         
         SelectedTarget.TakeDamage(1); // 대상에게 데미지
+        if (GameManager.Instance.appendSkillDamage)
+        {
+            SelectedTarget.TakeDamage(3);
+        }
         List<CharacterCard> myCharacterList = GameUIManager.Instance.GetAllCards(Client.Instance.GetPlayerID());
         foreach (var card in myCharacterList)
         {

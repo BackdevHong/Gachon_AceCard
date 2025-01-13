@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 104499248617677604}
   - component: {fileID: 6452215042801147179}
-  - component: {fileID: 2496636099563253795}
-  - component: {fileID: 1582167464497505390}
+  - component: {fileID: 3742285584230318811}
+  - component: {fileID: 1096845803947124116}
   m_Layer: 0
-  m_Name: Consensus
+  m_Name: Punishment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2496636099563253795
+--- !u!114 &3742285584230318811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293424760666407573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe5a0accc7e465497898de3819c94a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSelectionNeed: 0
+  skillType: 0
+  skillCost: 4
+--- !u!114 &1096845803947124116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,23 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bc6161605bab74cbd1ffae6e1584ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 1
+  cost: 0
   costText: {fileID: 3332176485003108369}
---- !u!114 &1582167464497505390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1293424760666407573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c90e102fea48a58590a3595f47c67b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSelectionNeed: 0
-  skillType: 0
-  skillCost: 0
 --- !u!1 &1396457223056168893
 GameObject:
   m_ObjectHideFlags: 0

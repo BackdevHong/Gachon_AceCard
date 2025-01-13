@@ -25,6 +25,10 @@ public class WinstonPayne : Skill
         {
             // 상대에게 3의 피해를 줌
             SelectedTarget.TakeDamage(4);
+            if (GameManager.Instance.appendSkillDamage)
+            {
+                SelectedTarget.TakeDamage(3);
+            }
             Debug.Log("상대에게 4의 피해를 주었습니다.");
         }
         else

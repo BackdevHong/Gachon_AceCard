@@ -96,6 +96,10 @@ public class ServerClient
             {
                 Server.Instance.HandleCostAddEvent(data);
             }
+            if (commandID == (int)PacketType.AddHp)
+            {
+                Server.Instance.HandleHpAddEvent(data);
+            }
             StartRead(); // 다음 데이터 수신 시작
         }
         catch (Exception e)

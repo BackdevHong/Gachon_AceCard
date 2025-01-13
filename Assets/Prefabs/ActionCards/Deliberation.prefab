@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 104499248617677604}
   - component: {fileID: 6452215042801147179}
-  - component: {fileID: 2496636099563253795}
-  - component: {fileID: 1582167464497505390}
+  - component: {fileID: 2472360791081283738}
+  - component: {fileID: 5340781757844218481}
   m_Layer: 0
-  m_Name: Consensus
+  m_Name: Deliberation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2496636099563253795
+--- !u!114 &2472360791081283738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,9 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bc6161605bab74cbd1ffae6e1584ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 1
+  cost: 6
   costText: {fileID: 3332176485003108369}
---- !u!114 &1582167464497505390
+--- !u!114 &5340781757844218481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1293424760666407573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c90e102fea48a58590a3595f47c67b, type: 3}
+  m_Script: {fileID: 11500000, guid: a7b695f041ba402ba8e8a721c17bf600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onSelectionNeed: 0

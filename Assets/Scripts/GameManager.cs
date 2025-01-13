@@ -5,6 +5,7 @@
     using UnityEngine;
     using UnityEngine.UI;
     using System.Linq;
+    using UnityEngine.Serialization;
     using Random = UnityEngine.Random;
 
     public class GameManager : MonoBehaviour
@@ -29,7 +30,15 @@
         private bool _freeSwitch = false;
         private bool _reduceCost = false;
         private bool _freeSkillCost = false;
-
+        public bool appendSkillDamage = false;
+        private bool _addNormalAttackDamage = false;
+        public bool usedHpCard = false;
+        private bool _freeAttack = false;
+        
+        private int _addedCost = 0;
+        private int _healTurn = 0;
+        private int _healUser = 0;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -192,7 +201,7 @@
                 Client.Instance.SendUpdateCostEvent(1);
             }
         }
-
+        
         public void NormalAttack()
         {   
             Debug.Log($"Current Turn: {Client.Instance.GetCurrentTurnPlayerID()}, Local Player: {Client.Instance.GetPlayerID()}");
@@ -234,6 +243,11 @@
                     {
                         damage += 1;
                     }
+                }
+
+                if (_addNormalAttackDamage)
+                {
+                    damage += 1;
                 }
                 var targetCard = opponentCards[0];
                 Debug.Log($"Player{playerId}이(가) {targetCard.name}에게 일반 공격을 했습니다.");
@@ -307,31 +321,55 @@
             if (_freeSkillCost)
             {
                 _freeSkillCost = false;
-                return;
             }
-            Client.Instance.SendUpdateCostEvent(activeCard.skillCard.skillCost);
+            else
+            {
+                Client.Instance.SendUpdateCostEvent(activeCard.skillCard.skillCost);
+            }
         }
 
-        public void OnActionUse(ActionType type, ActionCard card)
+        public void OnActionUse(ActionType type)
         {
             switch (type)
             {
-                // case ActionType.AddCost:
-                //     Destroy(card);
-                //     Client.Instance.SendUpdateCostEvent(1);
-                //     Client.Instance.SendAddCostEvent(Client.Instance.GetPlayerID(), 1);
-                //     break;
                 case ActionType.FreeSwitch:
                     _freeSwitch = true;
-                    Destroy(card);
                     break;
                 case ActionType.ReduceCost:
                     _reduceCost = true;
-                    Destroy(card);
                     break;
                 case ActionType.FreeSkillCost:
                     _freeSkillCost = true;
-                    Destroy(card);
+                    break;
+                case ActionType.AddNormalAttackDamage:
+                    _addNormalAttackDamage = true;
+                    break;
+                case ActionType.AddSkillDamage:
+                    appendSkillDamage = true;
+                    break;
+                case ActionType.FreeAttack:
+                    _freeAttack = true;
+                    break;
+            }
+        }
+
+        public void OnActionUse(ActionType type, int value)
+        {
+            switch (type)
+            {
+                case ActionType.AddCost:
+                    _addedCost = value;
+                    Client.Instance.SendAddCostEvent(Client.Instance.GetPlayerID(), value);
+                    break;
+                case ActionType.AddOneHp:
+                    Client.Instance.SendAddHpEvent(Client.Instance.GetPlayerID(), value, 1);
+                    usedHpCard = true;
+                    break;
+                case ActionType.AddLongHp:
+                    Client.Instance.SendAddHpEvent(Client.Instance.GetPlayerID(), value, 1);
+                    usedHpCard = true;
+                    _healTurn = 2;
+                    _healUser = Client.Instance.GetPlayerID();
                     break;
             }
         }
@@ -341,11 +379,19 @@
             // UI 업데이트
             bool isMyTurn = Client.Instance.GetPlayerID() == Client.Instance.GetCurrentTurnPlayerID();
             turnEndButton.interactable = isMyTurn;
-            if (_freeSwitch || _reduceCost)
+            if (_freeSwitch || _reduceCost || usedHpCard)
             {
                 _freeSwitch = false;
                 _reduceCost = false;
+                usedHpCard = false;
             }
+
+            if (_healTurn < 0)
+            {
+                _healTurn--;
+                Client.Instance.SendAddHpEvent(_healUser, 1, 1);
+            }
+            
             _turnC += 1;
             if (_turnC >= 2)
             {
@@ -353,6 +399,12 @@
                 _Round += 1;
                 Client.Instance.SendAddCostEvent(Client.Instance.GetPlayerID(), 1);
             }
+
+            if (_addedCost != 0)
+            {
+                Client.Instance.SendUpdateCostEvent(_addedCost);
+                _addedCost = 0;
+            } 
             Debug.Log(isMyTurn ? "내 턴입니다." : "상대방의 턴입니다.");
         }
 
@@ -378,5 +430,82 @@
             }
             Client.Instance.PlayerCosts[costAddEvent.playerID] += costAddEvent.addCost;
             UpdateCostUI();
+        }
+
+        public List<CharacterCard> GetAllCard(int playerID)
+        {
+            List<CharacterCard> allCards = new List<CharacterCard>();
+
+            // 플레이어의 Preparation과 Participation 오브젝트 가져오기
+            GameObject playerObject = GameObject.FindWithTag("Player" + playerID);
+            if (playerObject == null)
+            {
+                Debug.LogError($"Player {playerID} 오브젝트를 찾을 수 없습니다.");
+                return allCards;
+            }
+
+            GameObject preparation = playerObject.transform.Find("Preparation")?.gameObject;
+            GameObject participation = playerObject.transform.Find("Participation")?.gameObject;
+
+            if (preparation == null || participation == null)
+            {
+                Debug.LogError($"Player {playerID}의 Preparation 또는 Participation 영역을 찾을 수 없습니다.");
+                return allCards;
+            }
+
+            // Preparation에서 모든 CharacterCard 수집
+            var preparationCards = preparation.GetComponentsInChildren<CharacterCard>();
+            allCards.AddRange(preparationCards);
+
+            // Participation에서 모든 CharacterCard 수집
+            var participationCards = participation.GetComponentsInChildren<CharacterCard>();
+            allCards.AddRange(participationCards);
+
+            return allCards;
+        }
+
+        public CharacterCard GetMainCharacterCard(int playerID)
+        {
+            // 플레이어 오브젝트 가져오기
+            GameObject playerObject = GameObject.FindWithTag("Player" + playerID);
+            if (playerObject == null)
+            {
+                Debug.LogError($"Player {playerID} 오브젝트를 찾을 수 없습니다.");
+                return null;
+            }
+
+            // Participation 영역 가져오기
+            GameObject participation = playerObject.transform.Find("Participation")?.gameObject;
+            if (participation == null)
+            {
+                Debug.LogError($"Player {playerID}의 Participation 영역을 찾을 수 없습니다.");
+                return null;
+            }
+
+            // Participation에서 첫 번째 CharacterCard 반환
+            CharacterCard[] participationCards = participation.GetComponentsInChildren<CharacterCard>();
+            if (participationCards.Length > 0)
+            {
+                return participationCards[0]; // 첫 번째 카드를 메인 캐릭터 카드로 반환
+            }
+
+            Debug.LogError($"Player {playerID}의 Participation에 캐릭터 카드가 없습니다.");
+            return null; // Participation에 카드가 없는 경우
+        }
+
+
+        public void HealOneCard(int playerID, int addHp)
+        {
+            CharacterCard card = GetMainCharacterCard(playerID);
+            card.Heal(addHp);
+        }
+
+        public void HealCard(int playerID, int addHp)
+        {
+            List<CharacterCard> card = GetAllCard(playerID);
+            foreach (var characterCard in card)
+            {
+                characterCard.Heal(addHp);
+            }
         }
     }
