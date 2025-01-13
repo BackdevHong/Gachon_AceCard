@@ -312,6 +312,12 @@ public class Client : MonoBehaviour
             {
                 // GameManager에 전달하기 전에 Client의 턴 ID 업데이트
                 GameManager.Instance.UpdateTurnUI();
+
+                // 타이머 초기화 (GameUIManager에서 호출)
+                if (GameUIManager.Instance != null)
+                {
+                    GameUIManager.Instance.StartTurnTimer(GameUIManager.Instance.turnTimeLimit);
+                }
             });
         });
     }

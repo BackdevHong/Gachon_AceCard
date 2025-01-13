@@ -41,6 +41,7 @@ public class GameUIManager : MonoBehaviour
         endTurnButton.onClick.AddListener(() =>
         {
             Client.Instance.SendTurnEndRequest();
+            StartTurnTimer(turnTimeLimit);
         });
         
         changeCardButton.onClick.AddListener(() =>
@@ -100,6 +101,9 @@ public class GameUIManager : MonoBehaviour
 
         Debug.Log("시간 초과! 턴을 자동으로 종료합니다.");
         Client.Instance.SendTurnEndRequest(); // 자동으로 턴 종료 요청
+
+        // 턴이 넘어갈 때 타이머 초기화
+        StartTurnTimer(turnTimeLimit);
     }
     
     // public void SetupPlayerPositions()
