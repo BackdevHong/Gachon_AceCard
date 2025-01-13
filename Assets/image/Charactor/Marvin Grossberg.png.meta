@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Marvin Grossberg_0: 7984890243490448822
+      Marvin Grossberg_1: -3404775803220424175
+      Marvin Grossberg_2: -1824641546546952059
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

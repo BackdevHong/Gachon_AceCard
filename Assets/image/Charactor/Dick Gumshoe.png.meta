@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Dick Gumshoe_0: 8141150436200350520
+      Dick Gumshoe_1: 303666168395126516
+      Dick Gumshoe_2: -1928757691877134781
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

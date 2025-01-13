@@ -262,7 +262,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Karuma KO_0: 1427079877118764637
+      Karuma KO_1: -8500820608069844931
+      Karuma KO_2: -8637191081181678743
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
